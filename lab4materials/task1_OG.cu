@@ -50,21 +50,21 @@ cudaAssert(cudaError_t code, const char *file, int line, bool abort=true)
 
 
 /* Example kernel for an image copy operation. */
-// __global__ void
-// op_cuda_copy(uint32_t *dst, const uint32_t *src, const int rowstride,
-//              const int x, const int y,
-//              const int width, const int height)
-// {
-//   const int xx = blockIdx.x * blockDim.x + threadIdx.x;
-//   const int yy = blockIdx.y * blockDim.y + threadIdx.y;
+__global__ void
+op_cuda_copy(uint32_t *dst, const uint32_t *src, const int rowstride,
+             const int x, const int y,
+             const int width, const int height)
+{
+  const int xx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int yy = blockIdx.y * blockDim.y + threadIdx.y;
 
-//   if (xx < x || xx >= width || yy < y || y >= height)
-//     return;
+  if (xx < x || xx >= width || yy < y || y >= height)
+    return;
 
-//   /* Get the pixel in src and store in dst. */
-//   uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
-//   *image_get_pixel_data(dst, rowstride, xx, yy) = pixel;
-// }
+  /* Get the pixel in src and store in dst. */
+  uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
+  *image_get_pixel_data(dst, rowstride, xx, yy) = pixel;
+}
 
 
 /*
@@ -111,48 +111,47 @@ op_grayscale(image_t *dst, const image_t *src)
 static float
 run_cuda_kernel(image_t *background)
 {
-  // Image dimensions and size in bytes
-  const int width = background->width;
-  const int height = background->height;
-  const int rowstride = background->rowstride;
-  size_t imageSize = (size_t)rowstride * (size_t)height * sizeof(uint32_t);
+  /* TODO: allocate buffers to contain background image. */
 
-  // Allocate GPU memory
-  uint32_t *d_image;
-  CUDA_ASSERT(cudaMalloc((void**)&d_image, imageSize));
+  /* TODO: copy the input image to the background buffer allocated
+   * on the GPU.
+   */
 
-  // Copy input image to GPU
-  CUDA_ASSERT(cudaMemcpy(d_image, background->data, imageSize, cudaMemcpyHostToDevice));
+  /* TODO: calculate the block size and number of thread blocks. */
 
-  // Define block and grid dimensions
-  dim3 block(8, 8);
-  dim3 grid((width + block.x - 1) / block.x, (height + block.y - 1) / block.y);
 
+  /* "computetime" will only include the actual time taken by the GPU
+   * to perform the image operation. So, this excludes image loading,
+   * saving and the memory transfers to/from the GPU.
+   */
   cudaEvent_t start, stop;
   cudaEventCreate(&start);
   cudaEventCreate(&stop);
 
-  // Start timer (compute time only)
+  /* Start the timer */
   CUDA_ASSERT(cudaEventRecord(start));
 
-  // Launch CUDA kernel
-  op_cuda_grayscale<<<grid, block>>>(d_image, rowstride, width, height);
-  CUDA_ASSERT(cudaGetLastError());
+  /* TODO: replace with CUDA kernel call. If you have multiple variants
+   * of the kernel, you can choose which one to run here. Or make copies
+   * of this run_cuda_kernel() function.
+   */
+#if 0
+  op_grayscale(background, background); /* in-place */
+#endif
 
-  // Stop timer
+
+  CUDA_ASSERT( cudaGetLastError() );
+
+  /* Stop timer */
   CUDA_ASSERT(cudaEventRecord(stop));
   CUDA_ASSERT(cudaEventSynchronize(stop));
 
-  float msec = 0.0f;
+  float msec = 0;
   CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
 
-  // Copy results back to CPU
-  CUDA_ASSERT(cudaMemcpy(background->data, d_image, imageSize, cudaMemcpyDeviceToHost));
+  /* TODO: copy the result buffer back to CPU host memory. */
 
-  // Free GPU memory
-  CUDA_ASSERT(cudaFree(d_image));
-  cudaEventDestroy(start);
-  cudaEventDestroy(stop);
+  /* TODO: release GPU memory */
 
   return msec;
 }
