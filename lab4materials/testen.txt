@@ -1,0 +1,8 @@
+source /vol/share/groups/liacs/scratch/ca2023/ca2023.bashrc
+
+./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+
+/vol/share/groups/liacs/scratch/ca2023/lab3data
+innhoud:
+bricks256.png  bricks512.png  checker1024.png  checker4096.png  color4096.png  frames  
+frames.16  lulogo128.png  postcode  test2048.png  test3968x2944.png  tux64.png

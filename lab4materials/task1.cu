@@ -50,21 +50,21 @@ cudaAssert(cudaError_t code, const char *file, int line, bool abort=true)
 
 
 /* Example kernel for an image copy operation. */
-// __global__ void
-// op_cuda_copy(uint32_t *dst, const uint32_t *src, const int rowstride,
-//              const int x, const int y,
-//              const int width, const int height)
-// {
-//   const int xx = blockIdx.x * blockDim.x + threadIdx.x;
-//   const int yy = blockIdx.y * blockDim.y + threadIdx.y;
+__global__ void
+op_cuda_copy(uint32_t *dst, const uint32_t *src, const int rowstride,
+             const int x, const int y,
+             const int width, const int height)
+{
+  const int xx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int yy = blockIdx.y * blockDim.y + threadIdx.y;
 
-//   if (xx < x || xx >= width || yy < y || y >= height)
-//     return;
+  if (xx < x || xx >= width || yy < y || y >= height)
+    return;
 
-//   /* Get the pixel in src and store in dst. */
-//   uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
-//   *image_get_pixel_data(dst, rowstride, xx, yy) = pixel;
-// }
+  /* Get the pixel in src and store in dst. */
+  uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
+  *image_get_pixel_data(dst, rowstride, xx, yy) = pixel;
+}
 
 
 /*
@@ -106,56 +106,240 @@ op_grayscale(image_t *dst, const image_t *src)
     }
 }
 
+__global__ void
+op_cuda_grayscale_rq1(uint32_t *dst, const uint32_t *src, int rowstride,
+                      int width, int height)
+{
+    // Calculate the thread's unique position in the grid
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
 
-/* Returns elapsed time in msec */
+    printf("Thread (%d, %d) accessing pixel\n", x, y);
+
+    // Ensure thread is within image bounds
+    if (x >= width || y >= height) return;
+
+    // Fetch the color pixel
+    rgba_t color, gray;
+    RGBA_unpack(color, *image_get_pixel_data(src, rowstride, x, y));
+
+    // Compute intensity
+    float intensity = color.w * (0.2126f * color.x + 0.7152f * color.y + 0.0722f * color.z);
+    RGBA(gray, intensity, intensity, intensity, 1.f);
+
+    // Store the grayscale pixel
+    RGBA_pack(*image_get_pixel_data(dst, rowstride, x, y), gray);
+}
+
+
+
+
+
+
+// /* Returns elapsed time in msec */
+// static float
+// run_cuda_kernel(image_t *background)
+// {
+
+//   if (!background || !background->data) {
+//         std::cerr << "Error: Invalid background image.\n";
+//         return -1;
+//   }
+
+//   /* TODO: allocate buffers to contain background image. */
+//   uint32_t *input, *output;
+//   int rowstride = background->rowstride;
+//   int width = background->width;
+//   int height = background->height;
+
+//   if (rowstride <= 0 || height <= 0) {
+//     std::cerr << "Error: Invalid rowstride or height.\n";
+//     return -1;
+//   } 
+
+//   size_t imageSize = rowstride * width * sizeof(uint32_t); 
+//   CUDA_ASSERT(cudaMalloc(&input, imageSize));
+//   CUDA_ASSERT(cudaMalloc(&output, imageSize));
+
+
+//   /* TODO: copy the input image to the background buffer allocated
+//    * on the GPU.
+//    */
+//    CUDA_ASSERT(cudaMemcpy(input, background->data, imageSize, cudaMemcpyHostToDevice));
+
+
+//   /* TODO: calculate the block size and number of thread blocks. */
+//   const dim3 blockSize(8,8); //8*8=64 threads per block
+//   const dim3 gridSize((background->width + blockSize.x - 1) / blockSize.x,(background->height + blockSize.y - 1) / blockSize.y);
+
+
+//   /* "computetime" will only include the actual time taken by the GPU
+//    * to perform the image operation. So, this excludes image loading,
+//    * saving and the memory transfers to/from the GPU.
+//    */
+//   cudaEvent_t start, stop;
+//   cudaEventCreate(&start);
+//   cudaEventCreate(&stop);
+
+//   /* Start the timer */
+//   CUDA_ASSERT(cudaEventRecord(start));
+
+//   /* TODO: replace with CUDA kernel call. If you have multiple variants
+//    * of the kernel, you can choose which one to run here. Or make copies
+//    * of this run_cuda_kernel() function.
+//    */
+// // #if 0
+// //   op_grayscale(background, background); /* in-place */
+// // #endif
+
+//   //launch CUDA kernel
+//   op_cuda_grayscale_rq1<<<gridSize, blockSize>>>(output, input, background->rowstride, background->width, background->height);
+
+//   CUDA_ASSERT( cudaGetLastError() );
+
+//   /* Stop timer */
+//   CUDA_ASSERT(cudaEventRecord(stop));
+//   CUDA_ASSERT(cudaEventSynchronize(stop));
+
+//   float msec = 0;
+//   CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
+
+//   /* TODO: copy the result buffer back to CPU host memory. */
+//   CUDA_ASSERT(cudaMemcpy(background->data, output, imageSize, cudaMemcpyDeviceToHost));
+
+//   /* TODO: release GPU memory */
+//   CUDA_ASSERT(cudaFree(input));
+//   CUDA_ASSERT(cudaFree(output));
+
+//   return msec;
+// }
+
 static float
 run_cuda_kernel(image_t *background)
 {
-  // Image dimensions and size in bytes
-  const int width = background->width;
-  const int height = background->height;
-  const int rowstride = background->rowstride;
-  size_t imageSize = (size_t)rowstride * (size_t)height * sizeof(uint32_t);
+    if (!background || !background->data) {
+        std::cerr << "Error: Invalid background image or data.\n";
+        return -1;
+    }
 
-  // Allocate GPU memory
-  uint32_t *d_image;
-  CUDA_ASSERT(cudaMalloc((void**)&d_image, imageSize));
+    int rowstride = background->rowstride;
+    int width = background->width;
+    int height = background->height;
 
-  // Copy input image to GPU
-  CUDA_ASSERT(cudaMemcpy(d_image, background->data, imageSize, cudaMemcpyHostToDevice));
+    if (rowstride <= 0 || height <= 0 || width <= 0) {
+        std::cerr << "Error: Invalid image dimensions.\n";
+        return -1;
+    }
 
-  // Define block and grid dimensions
-  dim3 block(8, 8);
-  dim3 grid((width + block.x - 1) / block.x, (height + block.y - 1) / block.y);
+    // Debug: Log image properties
+    std::cerr << "Image Properties: width=" << width
+              << ", height=" << height
+              << ", rowstride=" << rowstride << "\n";
 
-  cudaEvent_t start, stop;
-  cudaEventCreate(&start);
-  cudaEventCreate(&stop);
+    // Allocate GPU memory
+    uint32_t *input, *output;
+    size_t imageSize = rowstride * height * sizeof(uint32_t);
 
-  // Start timer (compute time only)
-  CUDA_ASSERT(cudaEventRecord(start));
+    cudaError_t err = cudaMalloc(&input, imageSize);
+    if (err != cudaSuccess) {
+        std::cerr << "cudaMalloc for input failed: " << cudaGetErrorString(err) << "\n";
+        return -1;
+    }
 
-  // Launch CUDA kernel
-  op_cuda_grayscale<<<grid, block>>>(d_image, rowstride, width, height);
-  CUDA_ASSERT(cudaGetLastError());
+    err = cudaMalloc(&output, imageSize);
+    if (err != cudaSuccess) {
+        std::cerr << "cudaMalloc for output failed: " << cudaGetErrorString(err) << "\n";
+        cudaFree(input); // Cleanup
+        return -1;
+    }
 
-  // Stop timer
-  CUDA_ASSERT(cudaEventRecord(stop));
-  CUDA_ASSERT(cudaEventSynchronize(stop));
+    // Copy input image to GPU
+    std::cerr << "Copying input data to device...\n";
+    err = cudaMemcpy(input, background->data, imageSize, cudaMemcpyHostToDevice);
+    if (err != cudaSuccess) {
+        std::cerr << "cudaMemcpy HostToDevice failed: " << cudaGetErrorString(err) << "\n";
+        cudaFree(input);
+        cudaFree(output);
+        return -1;
+    }
+    std::cerr << "Input data copied successfully.\n";
 
-  float msec = 0.0f;
-  CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
+    // Configure kernel launch
+    const dim3 blockSize(8, 8);
+    const dim3 gridSize((width + blockSize.x - 1) / blockSize.x,
+                        (height + blockSize.y - 1) / blockSize.y);
 
-  // Copy results back to CPU
-  CUDA_ASSERT(cudaMemcpy(background->data, d_image, imageSize, cudaMemcpyDeviceToHost));
+    std::cerr << "Grid Size: (" << gridSize.x << ", " << gridSize.y << ")\n";
+    std::cerr << "Block Size: (" << blockSize.x << ", " << blockSize.y << ")\n";
 
-  // Free GPU memory
-  CUDA_ASSERT(cudaFree(d_image));
-  cudaEventDestroy(start);
-  cudaEventDestroy(stop);
+    // Launch kernel
+    cudaEvent_t start, stop;
+    CUDA_ASSERT(cudaEventCreate(&start));
+    CUDA_ASSERT(cudaEventCreate(&stop));
+    CUDA_ASSERT(cudaEventRecord(start));
 
-  return msec;
+    op_cuda_grayscale_rq1<<<gridSize, blockSize>>>(output, input, rowstride, width, height);
+    err = cudaGetLastError(); // Check for launch errors
+    if (err != cudaSuccess) {
+        std::cerr << "Kernel launch failed: " << cudaGetErrorString(err) << "\n";
+        cudaFree(input);
+        cudaFree(output);
+        return -1;
+    }
+
+    cudaDeviceSynchronize(); // Ensure kernel execution completes
+
+    CUDA_ASSERT(cudaEventRecord(stop));
+    CUDA_ASSERT(cudaEventSynchronize(stop));
+
+    // Measure elapsed time
+    float msec = 0;
+    CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
+
+    std::cerr << "Kernel execution completed in " << msec << " ms.\n";
+
+    // Copy output data back to host
+    std::cerr << "Copying output data back to host...\n";
+    err = cudaMemcpy(background->data, output, imageSize, cudaMemcpyDeviceToHost);
+    if (err != cudaSuccess) {
+        std::cerr << "cudaMemcpy DeviceToHost failed: " << cudaGetErrorString(err) << "\n";
+        cudaFree(input);
+        cudaFree(output);
+        return -1;
+    }
+    std::cerr << "Output data copied successfully.\n";
+
+    // // Free GPU memory
+    // std::cerr << "Freeing GPU memory...\n";
+    // if (input) {
+    //   std::cerr << "Freeing input...\n";
+    //     err = cudaFree(input);
+    //     std::cerr << "Freeing input 2 ...\n";
+    //     if (err != cudaSuccess) {
+    //         std::cerr << "cudaFree for input failed: " << cudaGetErrorString(err) << "\n";
+    //     } else {
+    //         std::cerr << "Freeing input completed.\n";
+    //     }
+    // }
+
+    // if (output) {
+    //     err = cudaFree(output);
+    //     if (err != cudaSuccess) {
+    //         std::cerr << "cudaFree for output failed: " << cudaGetErrorString(err) << "\n";
+    //     } else {
+    //         std::cerr << "Freeing output completed.\n";
+    //     }
+    // }
+
+    // std::cerr << "GPU memory freed.\n";
+    return msec;
 }
+
+
+
+
+
+
 
 
 static void
@@ -167,6 +351,7 @@ run_test(const std::string &infilename,
   image_t *background;
   background = image_new_from_pngfile(infilename.c_str());
   if (!background)
+    std::cerr << "Could not load image " << infilename << ".\n";
     return;
 
   /* Create a copy to be manipulated on CPU */
