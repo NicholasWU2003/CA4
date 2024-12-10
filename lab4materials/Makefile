@@ -21,7 +21,7 @@ TARGETS = \
 
 all:		$(TARGETS)
 
-task1:		task1.cu image.o
+task1:		task1RQ2.cu image.o
 		$(NVCC) $(NVCCFLAGS) -o $@ $^ $(PNGFLAGS) $(LDFLAGS)
 
 task2:		task2.cu image.o

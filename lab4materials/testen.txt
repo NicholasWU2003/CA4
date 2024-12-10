@@ -1,8 +1,211 @@
 source /vol/share/groups/liacs/scratch/ca2023/ca2023.bashrc
 
 ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+./task1 -t /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
 
 /vol/share/groups/liacs/scratch/ca2023/lab3data
 innhoud:
 bricks256.png  bricks512.png  checker1024.png  checker4096.png  color4096.png  frames  
 frames.16  lulogo128.png  postcode  test2048.png  test3968x2944.png  tux64.png
+
+
+
+
+./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png
+./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+
+
+resultaten:
+PPT  = 1
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.1240906s, user 0.009114s, system 0.069825s  (63.614005 % CPU utilization, 1 cores allowed)
+load : 0.019297952s - 0.019297952s, avg 0.019297952s +/- 0
+compute: 0.0051128321s - 0.0051128321s, avg 0.0051128321s +/- 0
+====
+
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png ...
+====
+total: real 0.14210884s, user 0.007669s, system 0.061438s  (48.629627 % CPU utilization, 1 cores allowed)
+load : 0.035685203s - 0.035685203s, avg 0.035685203s +/- 0
+compute: 0.018822144s - 0.018822144s, avg 0.018822144s +/- 0
+====
+
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.97629765s, user 0.395421s, system 0.0895s  (49.669381 % CPU utilization, 1 cores allowed)
+load : 0.76703833s - 0.76703833s, avg 0.76703833s +/- 0
+compute: 0.083735619s - 0.083735619s, avg 0.083735619s +/- 0
+====
+
+
+
+
+PPT = 2:
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.1552855s, user 0.037095s, system 0.057987s  (61.230444 % CPU utilization, 1 cores allowed)
+load : 0.003679521s - 0.003679521s, avg 0.003679521s +/- 0
+compute: 0.061371552s - 0.061371552s, avg 0.061371552s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png ...
+====
+total: real 0.096503232s, user 0.001264s, system 0.062101s  (65.661013 % CPU utilization, 1 cores allowed)
+load : 0.003071062s - 0.003071062s, avg 0.003071062s +/- 0
+compute: 0.0054865918s - 0.0054865918s, avg 0.0054865918s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.35688641s, user 0.256925s, system 0.071787s  (92.105497 % CPU utilization, 1 cores allowed)
+load : 0.2714592s - 0.2714592s, avg 0.2714592s +/- 0
+compute: 0.0074443202s - 0.0074443202s, avg 0.0074443202s +/- 0
+====
+
+
+PPT = 4
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.37084847s, user 0.266083s, system 0.072316s  (91.249939 % CPU utilization, 1 cores allowed)
+load : 0.27171067s - 0.27171067s, avg 0.27171067s +/- 0
+compute: 0.010772096s - 0.010772096s, avg 0.010772096s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png ...
+====
+total: real 0.098386943s, user 0.00408s, system 0.070604s  (75.908447 % CPU utilization, 1 cores allowed)
+load : 0.002937247s - 0.002937247s, avg 0.002937247s +/- 0
+compute: 0.0036526079s - 0.0036526079s, avg 0.0036526079s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.08500031s, user 0s, system 0.056306s  (66.242111 % CPU utilization, 1 cores allowed)
+load : 0.001479788s - 0.001479788s, avg 0.001479788s +/- 0
+compute: 0.00337936s - 0.00337936s, avg 0.00337936s +/- 0
+====
+
+
+
+PPT = 8
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.078458714s, user 0.000512s, system 0.048989s  (63.091781 % CPU utilization, 1 cores allowed)
+load : 0.001289462s - 0.001289462s, avg 0.001289462s +/- 0
+compute: 0.004166368s - 0.004166368s, avg 0.004166368s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png ...
+====
+total: real 0.089924366s, user 0.012933s, system 0.049259s  (69.160343 % CPU utilization, 1 cores allowed)
+load : 0.00399574s - 0.00399574s, avg 0.00399574s +/- 0
+compute: 0.004350976s - 0.004350976s, avg 0.004350976s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.36295533s, user 0.280762s, system 0.052001s  (91.681529 % CPU utilization, 1 cores allowed)
+load : 0.26283749s - 0.26283749s, avg 0.26283749s +/- 0
+compute: 0.025134048s - 0.025134048s, avg 0.025134048s +/- 0
+====
+
+
+block size 8, 16, 32, 4, 2
+
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.37372856s, user 0.274427s, system 0.053991s  (87.876078 % CPU utilization, 1 cores allowed)
+load : 0.26896147s - 0.26896147s, avg 0.26896147s +/- 0
+compute: 0.014913664s - 0.014913664s, avg 0.014913664s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.36010603s, user 0.274268s, system 0.056367s  (91.816014 % CPU utilization, 1 cores allowed)
+load : 0.27595256s - 0.27595256s, avg 0.27595256s +/- 0
+compute: 0.0042848959s - 0.0042848959s, avg 0.0042848959s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.36833858s, user 0.273926s, system 0.065253s  (92.083484 % CPU utilization, 1 cores allowed)
+load : 0.27998291s - 0.27998291s, avg 0.27998291s +/- 0
+compute: 0.0042441921s - 0.0042441921s, avg 0.0042441921s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.37559167s, user 0.27441s, system 0.069937s  (91.681213 % CPU utilization, 1 cores allowed)
+load : 0.27125951s - 0.27125951s, avg 0.27125951s +/- 0
+compute: 0.0066088638s - 0.0066088638s, avg 0.0066088638s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
+====
+total: real 0.37209106s, user 0.276653s, system 0.064961s  (91.809246 % CPU utilization, 1 cores allowed)
+load : 0.27681654s - 0.27681654s, avg 0.27681654s +/- 0
+compute: 0.00965728s - 0.00965728s, avg 0.00965728s +/- 0
+====
+
+
+
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.097275308s, user 0.00795s, system 0.055393s  (65.117244 % CPU utilization, 1 cores allowed)
+load : 0.001975184s - 0.001975184s, avg 0.001975184s +/- 0
+compute: 0.0052401919s - 0.0052401919s, avg 0.0052401919s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.10256046s, user 0.004613s, system 0.066832s  (69.66135 % CPU utilization, 1 cores allowed)
+load : 0.001712559s - 0.001712559s, avg 0.001712559s +/- 0
+compute: 0.0035863359s - 0.0035863359s, avg 0.0035863359s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.078968662s, user 0.005048s, system 0.044142s  (62.290532 % CPU utilization, 1 cores allowed)
+load : 0.002048852s - 0.002048852s, avg 0.002048852s +/- 0
+compute: 0.0047060161s - 0.0047060161s, avg 0.0047060161s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.094382624s, user 0.001116s, system 0.059054s  (63.751141 % CPU utilization, 1 cores allowed)
+load : 0.00249429s - 0.00249429s, avg 0.00249429s +/- 0
+compute: 0.0041091838s - 0.0041091838s, avg 0.0041091838s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ make
+nvcc -O3 -std=c++14 --use_fast_math -o task1 task1RQ2.cu image.o `pkg-config --cflags --libs libpng` -lm
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ ./task1 /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png ...
+====
+total: real 0.081207671s, user 0.010324s, system 0.04114s  (63.373323 % CPU utilization, 1 cores allowed)
+load : 0.001366054s - 0.001366054s, avg 0.001366054s +/- 0
+compute: 0.0051312642s - 0.0051312642s, avg 0.0051312642s +/- 0
+====
+(ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ 

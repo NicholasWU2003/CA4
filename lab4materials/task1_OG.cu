@@ -112,6 +112,7 @@ static float
 run_cuda_kernel(image_t *background)
 {
   /* TODO: allocate buffers to contain background image. */
+  
 
   /* TODO: copy the input image to the background buffer allocated
    * on the GPU.
