@@ -104,6 +104,84 @@ op_tile_composite(image_t *background,
 }
 
 
+__global__ void
+op_tile_composite_noShared(uint32_t *background, const uint32_t *tile, int bg_width, int bg_height,
+                          int tile_width, int tile_height,
+                         float tile_alpha)
+{
+  int x = blockIdx.x * blockDim.x + threadIdx.x;
+  int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+  if (x >= bg_width || y >= bg_height)
+    return;
+
+  int tx = x % tile_width;
+  int ty = y % tile_height;
+
+  uint32_t bg_pix = background[y * bg_width + x];
+  uint32_t tile_pix = tile[ty * tile_width + tx];
+
+  rgba_t dst, src;
+  RGBA_unpack(dst, bg_pix);
+  RGBA_unpack(src, tile_pix);
+  RGBA_mults(src, src, tile_alpha);
+  RGBA_mults(dst, dst, 1.0f - tile_alpha);
+  RGBA_add(dst, dst, src);
+  RGBA_pack(background[y * bg_width + x], dst);
+}
+
+/* GPU kernel using shared memory to store the tile.
+ * Here we assume tile_width = tile_height = 64.
+ * Make sure your block size is (64,64).
+ */
+__global__ void op_tile_composite_shared(uint32_t *background, const uint32_t *tile,
+                                         int bg_width, int bg_height,
+                                         int tile_width, int tile_height,
+                                         float tile_alpha) 
+{
+    __shared__ uint32_t shared_tile[64][64];
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    // Linear thread index within the block
+    int local_idx = threadIdx.y * blockDim.x + threadIdx.x;
+    int total_pixels = tile_width * tile_height; // 64*64 = 4096
+    int stride = blockDim.x * blockDim.y;        // 32*32 = 1024
+
+    // Load entire tile into shared memory using all threads in the block
+    for (int i = local_idx; i < total_pixels; i += stride) {
+        int ty = i / tile_width;
+        int tx = i % tile_width;
+        shared_tile[ty][tx] = tile[i];
+    }
+
+    __syncthreads();
+
+    // Now proceed with blending
+    if (x < bg_width && y < bg_height) {
+        int tx = x % tile_width;
+        int ty = y % tile_height;
+
+        uint32_t background_px = background[y * bg_width + x];
+        uint32_t tile_px = shared_tile[ty][tx];
+
+        rgba_t dst, src;
+        RGBA_unpack(dst, background_px);
+        RGBA_unpack(src, tile_px);
+
+        RGBA_mults(src, src, tile_alpha);
+        RGBA_mults(dst, dst, 1.0f - tile_alpha);
+        RGBA_add(dst, dst, src);
+
+        RGBA_pack(background[y * bg_width + x], dst);
+    }
+}
+
+
+
+
+
 
 /* Returns elapsed time in msec */
 static float
@@ -111,12 +189,30 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
                  const image_t *tile)
 {
   /* TODO: allocate buffers to contain background images and tile image. */
+  size_t background_width = background[0]->width;
+  size_t background_height = background[0]->height;
+  size_t background_size = background_height * background_width * sizeof(uint32_t);
+
+  size_t tile_width = tile->width;
+  size_t tile_height = tile->height;
+  size_t tile_size = tile_height * tile_width * sizeof(uint32_t);
+
+  uint32_t *background_buffer;
+  uint32_t *tile_buffer;
+
+  CUDA_ASSERT(cudaMalloc(&background_buffer, background_size));
+  CUDA_ASSERT(cudaMalloc(&tile_buffer, tile_size));
 
   /* TODO: copy the input image(s) to the background buffer allocated
-   * on the GPU. And similar for the tile.
-   */
+  * on the GPU. And similar for the tile.
+  */
+  CUDA_ASSERT(cudaMemcpy(background_buffer, background[0]->data, background_size, cudaMemcpyHostToDevice));
+  CUDA_ASSERT(cudaMemcpy(tile_buffer, tile->data, tile_size, cudaMemcpyHostToDevice));
+
 
   /* TODO: calculate the block size and number of thread blocks. */
+  dim3 block_size(32, 32); // for tile_composite_shared
+  dim3 grid_size((background_width + block_size.x - 1) / block_size.x,(background_height + block_size.y - 1) / block_size.y);
 
 
   /* "computetime" will only include the actual time taken by the GPU
@@ -134,9 +230,24 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
    * of the kernel, you can choose which one to run here. Or make copies
    * of this run_cuda_kernels() function.
    */
-#if 0
-  op_tile_composite(background, tile, 0.2f);
-#endif
+
+  op_tile_composite_shared<<<grid_size, block_size>>>(
+      background_buffer,
+      tile_buffer,
+      (int)background_width,
+      (int)background_height,
+      (int)tile_width,
+      (int)tile_height,
+      0.2f);
+
+  // op_tile_composite_noShared<<<grid_size, block_size>>>(
+  //   background_buffer,
+  //   tile_buffer, 
+  //   (int)background_width, 
+  //   (int)background_height,
+  //   (int)tile_width, 
+  //   (int)tile_height, 
+  //   0.2f);
 
 
   CUDA_ASSERT( cudaGetLastError() );
@@ -149,8 +260,11 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
   CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
 
   /* TODO: copy the result buffer back to CPU host memory. */
+  CUDA_ASSERT(cudaMemcpy(background[0]->data, background_buffer, background_size, cudaMemcpyDeviceToHost));
 
   /* TODO: release GPU memory */
+  CUDA_ASSERT(cudaFree(background_buffer));
+  CUDA_ASSERT(cudaFree(tile_buffer));
 
   return msec;
 }

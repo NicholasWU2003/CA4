@@ -4,6 +4,14 @@ source /vol/share/groups/liacs/scratch/ca2023/ca2023.bashrc
 ./task1 -t /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
 
 /vol/share/groups/liacs/scratch/ca2023/lab3data
+
+./task2 -t /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+
+./task2 -1 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+
+./task2 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+
+
 innhoud:
 bricks256.png  bricks512.png  checker1024.png  checker4096.png  color4096.png  frames  
 frames.16  lulogo128.png  postcode  test2048.png  test3968x2944.png  tux64.png
@@ -209,3 +217,34 @@ load : 0.001366054s - 0.001366054s, avg 0.001366054s +/- 0
 compute: 0.0051312642s - 0.0051312642s, avg 0.0051312642s +/- 0
 ====
 (ca2023) s3692949@u0065065:~/Downloads/CA4/lab4materials$ 
+
+
+
+
+
+no shared mem blocksize 32, 32
+s3692949@u0065016:~/Downloads/CA4/lab4materials$ ./task2 -1 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/frames//frame0001.png ...
+====
+total: real 0.097412217s, user 0.044398s, system 0.045545s  (92.332361 % CPU utilization, 1 cores allowed)
+load : 0.040288606s - 0.040288606s, avg 0.040288606s +/- 0
+compute: 7.9871997e-05s - 7.9871997e-05s, avg 7.9871997e-05s +/- 0
+====
+s3692949@u0065016:~/Downloads/CA4/lab4materials$ ./task2 -1 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/lulogo128.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/frames//frame0001.png ...
+====
+total: real 0.10976828s, user 0.048912s, system 0.051979s  (91.912711 % CPU utilization, 1 cores allowed)
+load : 0.045006274s - 0.045006274s, avg 0.045006274s +/- 0
+compute: 7.8847997e-05s - 7.8847997e-05s, avg 7.8847997e-05s +/- 0
+====
+s3692949@u0065016:~/Downloads/CA4/lab4materials$ ./task2 -1 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/frames//frame0001.png ...
+====
+total: real 0.091928182s, user 0.033571s, system 0.051594s  (92.642972 % CPU utilization, 1 cores allowed)
+load : 0.026270187s - 0.026270187s, avg 0.026270187s +/- 0
+compute: 9.3376003e-05s - 9.3376003e-05s, avg 9.3376003e-05s +/- 0
+====
+s3692949@u0065016:~/Downloads/CA4/lab4materials$ 
+
+
+shared mem blocksize 32,32
