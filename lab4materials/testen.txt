@@ -11,6 +11,7 @@ source /vol/share/groups/liacs/scratch/ca2023/ca2023.bashrc
 
 ./task2 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
 
+./task3 -1 -b 8 -r 3 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
 
 innhoud:
 bricks256.png  bricks512.png  checker1024.png  checker4096.png  color4096.png  frames  
@@ -248,3 +249,10 @@ s3692949@u0065016:~/Downloads/CA4/lab4materials$
 
 
 shared mem blocksize 32,32
+testen van task 2, alleen nog fixen van grote images bij shared mem"
+
+====
+total: real 0.12479861s, user 0.057222s, system 0.040922s  (78.6419 % CPU utilization, 1 cores allowed)
+load : 0.046449422s - 0.046449422s, avg 0.046449422s +/- 0
+compute: 0.0041170878s - 0.0041170878s, avg 0.0041170878s +/- 0
+====

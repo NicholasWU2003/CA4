@@ -16,7 +16,8 @@ NVCCFLAGS = -O3 -std=c++14 --use_fast_math
 # Add additional targets here:
 TARGETS = \
 		task1	\
-		task2
+		task2	\
+		task3	\
 
 
 all:		$(TARGETS)
@@ -26,6 +27,10 @@ task1:		task1RQ2.cu image.o
 
 task2:		task2.cu image.o
 		$(NVCC) $(NVCCFLAGS) -o $@ $^ $(PNGFLAGS) $(LDFLAGS)
+
+task3:		task3.cu image.o
+		$(NVCC) $(NVCCFLAGS) -o $@ $^ $(PNGFLAGS) $(LDFLAGS)
+
 
 # Could add additional rules here
 #
