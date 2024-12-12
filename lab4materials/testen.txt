@@ -12,6 +12,9 @@ source /vol/share/groups/liacs/scratch/ca2023/ca2023.bashrc
 ./task2 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
 
 ./task3 -1 -b 8 -r 3 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+./task3 -1 -b 8 -r 3 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+./task4 -b 8 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
+./task3 -b 8 /vol/share/groups/liacs/scratch/ca2023/lab3data/frames/ /vol/share/groups/liacs/scratch/ca2023/lab3data/tux64.png
 
 innhoud:
 bricks256.png  bricks512.png  checker1024.png  checker4096.png  color4096.png  frames  
@@ -256,3 +259,27 @@ total: real 0.12479861s, user 0.057222s, system 0.040922s  (78.6419 % CPU utiliz
 load : 0.046449422s - 0.046449422s, avg 0.046449422s +/- 0
 compute: 0.0041170878s - 0.0041170878s, avg 0.0041170878s +/- 0
 ====
+
+
+
+
+
+
+
+
+eind 
+====
+total: real 20.349736s, user 19.318045s, system 0.366505s  (96.731228 % CPU utilization, 1 cores allowed)
+load : 0.26737829s - 0.33187101s, avg 0.29512088s +/- 0.02072941
+compute: 0.0010506241s - 0.0084654083s, avg 0.001166658s +/- 0.00091955615
+====
+ ^task 4 met shared batch van 8
+
+
+ ====
+total: real 21.761991s, user 19.162899s, system 1.930835s  (96.929248 % CPU utilization, 1 cores allowed)
+load : 0.28487595s - 0.37061308s, avg 0.31446615s +/- 0.022229252
+compute: 0.001050624s - 0.0063160319s, avg 0.0011467955s +/- 0.00065127015
+====
+
+^task 3
