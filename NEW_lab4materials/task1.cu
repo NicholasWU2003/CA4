@@ -48,6 +48,10 @@ cudaAssert(cudaError_t code, const char *file, int line, bool abort=true)
  * op_cuda_copy is a CUDA kernel provided as example.
  */
 
+ __device__ float compute_intensity_CUDA(float4 color) {
+    return color.w * (0.2126f * color.x + 0.7152f * color.y + 0.0722f * color.z);
+}
+
 
 /* Example kernel for an image copy operation. */
 __global__ void
@@ -64,6 +68,66 @@ op_cuda_copy(uint32_t *dst, const uint32_t *src, const int rowstride,
   /* Get the pixel in src and store in dst. */
   uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
   *image_get_pixel_data(dst, rowstride, xx, yy) = pixel;
+}
+
+__global__ void
+op_cuda_RQ1(uint32_t *dst, const uint32_t *src, const int rowstride,
+             const int x, const int y,
+             const int width, const int height)
+{
+  const int xx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int yy = blockIdx.y * blockDim.y + threadIdx.y;
+
+  if (xx < x || xx >= width || yy < y || yy >= height)
+    return;
+
+  // Get the pixel in src
+  uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
+
+  float4 color;
+  RGBA_unpack(color, pixel);
+  float intensity = compute_intensity_CUDA(color);
+  float4 gray;
+  gray.x = gray.y = gray.z = intensity;
+  gray.w = color.w;
+
+  uint32_t gray_pixel;
+  RGBA_pack(gray_pixel, gray);
+  *image_get_pixel_data(dst, rowstride, xx, yy) = gray_pixel;
+}
+
+__global__ void
+op_cuda_RQ2(uint32_t *dst, const uint32_t *src, const int rowstride,
+             const int x, const int y,
+             const int width, const int height)
+{
+  const int base_xx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int base_yy = blockIdx.y * blockDim.y + threadIdx.y;
+  
+  // Process 4 pixels per thread in a 2x2 block
+  for (int dy = 0; dy < 2; dy++) {
+    for (int dx = 0; dx < 2; dx++) {
+      const int xx = base_xx * 2 + dx;
+      const int yy = base_yy * 2 + dy;
+      
+      if (xx < x || xx >= width || yy < y || yy >= height)
+        continue;
+
+      // Get the pixel in src
+      uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
+
+      float4 color;
+      RGBA_unpack(color, pixel);
+      float intensity = compute_intensity_CUDA(color);
+      float4 gray;
+      gray.x = gray.y = gray.z = intensity;
+      gray.w = color.w;
+
+      uint32_t gray_pixel;
+      RGBA_pack(gray_pixel, gray);
+      *image_get_pixel_data(dst, rowstride, xx, yy) = gray_pixel;
+    }
+  }
 }
 
 
@@ -107,18 +171,30 @@ op_grayscale(image_t *dst, const image_t *src)
 }
 
 
+
+
+
 /* Returns elapsed time in msec */
 static float
 run_cuda_kernel(image_t *background)
 {
   /* TODO: allocate buffers to contain background image. */
+  uint32_t *d_img = nullptr;
+  size_t img_bytes = background->rowstride * background->height;
+  cudaMalloc(&d_img, img_bytes);
 
-  /* TODO: copy the input image to the background buffer allocated
+
+   /* TODO: copy the input image to the background buffer allocated
    * on the GPU.
    */
+  cudaMemcpy(d_img, background->data, img_bytes, cudaMemcpyHostToDevice);
 
   /* TODO: calculate the block size and number of thread blocks. */
-
+  dim3 block(64, 64); 
+  int PPTx = 2;
+  int PPTy = 2;
+  dim3 grid((background->width + (block.x * PPTx - 1)) / (block.x * PPTx),
+            (background->height + (block.y * PPTy - 1)) / (block.y * PPTy));
 
   /* "computetime" will only include the actual time taken by the GPU
    * to perform the image operation. So, this excludes image loading,
@@ -131,16 +207,20 @@ run_cuda_kernel(image_t *background)
   /* Start the timer */
   CUDA_ASSERT(cudaEventRecord(start));
 
+
   /* TODO: replace with CUDA kernel call. If you have multiple variants
    * of the kernel, you can choose which one to run here. Or make copies
    * of this run_cuda_kernel() function.
    */
-#if 0
-  op_grayscale(background, background); /* in-place */
-#endif
+
+  //   #if 0
+  //   op_grayscale(background, background); /* in-place */
+  // #endif
+  op_cuda_RQ2<<<grid, block>>>(d_img, d_img, background->rowstride, 0, 0, background->width, background->height);
+  CUDA_ASSERT(cudaGetLastError());
 
 
-  CUDA_ASSERT( cudaGetLastError() );
+
 
   /* Stop timer */
   CUDA_ASSERT(cudaEventRecord(stop));
@@ -149,9 +229,9 @@ run_cuda_kernel(image_t *background)
   float msec = 0;
   CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
 
-  /* TODO: copy the result buffer back to CPU host memory. */
+  cudaMemcpy(background->data, d_img, img_bytes, cudaMemcpyDeviceToHost);
 
-  /* TODO: release GPU memory */
+  cudaFree(d_img);
 
   return msec;
 }

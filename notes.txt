@@ -1,0 +1,32 @@
+source /vol/share/groups/liacs/scratch/ca2023/ca2023.bashrc 
+
+ Een GPU kan duizenden pixels tegelijkertijd verwerken. 
+ Plaatjes met minder dan duizenden pixels zijn dus te klein. Je kunt 1 te klein plaatje opnemen 
+ in het verslag om het verschil te laten zien, maar de meerderheid moet dus grotere plaatjes betreffen. 
+ In Tabel 1 zijn 2 van de 3 plaatjes te klein.
+
+- De gerapporteerde compute times in Tabel 1 zijn erg hoog en hoger dan verwacht.
+
+- RQ2: de discussie over "load time" is onjuist. En wat bereikt het aanpassen van PPT precies? 
+Doet dat echt iets met data transfer overhead?
+
+- Tabel 2: dit experiment is niet reproduceerbaar met de ingeleverde source code. De kernel crasht voor PPT>=2. De Makefile refereert naar een task1RQ2.cu welke niet is ingeleverd. De trends in de resultaten voor compute times kloppen niet.
+- Tabel 3: deze resultaten zijn niet reproduceerbaar.
+- Task 2: redenatie klopt niet. In de tweede paragraaf worden alleen maar vage statements gegeven. Het gaat in het geheel niet over de methode voor shared memory die in de code is geimplementeerd.
+- Tabel 5: outliers in de compute time resultaten. Een gemiddelde en stdev zijn zinniger dan 3 resultaten onder elkaar plaatsen.
+- Task 4: incompleet experiment en analyse. Er wordt een conclusie getrokken die op basis van de presenteerde meetgegevens niet kan worden getrokken. En is er in de code wel echt sprake van overlapped compute en transfer voor twee verschillende batches?
+
+
+
+cd /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+
+./task1 -t /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
+
+
+./task1 -t /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png Results/output.png
+./task1 -t /vol/share/groups/liacs/scratch/ca2023/lab3data/test2048.png Results/output1.png
+./task1 -t /vol/share/groups/liacs/scratch/ca2023/lab3data/test3968x2944.png Results/output2.png
+
+./task1 -r 5 images/test2048.png >> Results/T1RQ3.txt
+./task1 -r 5 images/color4096.png >> Results/T1RQ3.txt
+./task1 -r 5 images/test3968x2944.png >> Results/T1RQ3.txt

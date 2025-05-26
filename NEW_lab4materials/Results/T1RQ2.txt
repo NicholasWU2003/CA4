@@ -1,0 +1,93 @@
+4 PPT 2x2 block
+
+
+Processing images/test2048.png ...
+====
+total: real 0.14104843s, user 0.084305s, system 0.05111s  (96.006031 % CPU utilization, 1 cores allowed)
+load : 0.084883104s - 0.084883104s, avg 0.084883104s +/- 0
+compute: 0.0030487361s - 0.0030487361s, avg 0.0030487361s +/- 0
+====
+Processing images/test2048.png ...
+====
+total: real 0.082114566s, user 0.071336s, system 0.009919s  (98.953211 % CPU utilization, 1 cores allowed)
+load : 0.078943545s - 0.078943545s, avg 0.078943545s +/- 0
+compute: 8.608e-05s - 8.608e-05s, avg 8.608e-05s +/- 0
+====
+Processing images/test2048.png ...
+====
+total: real 0.07674984s, user 0.072173s, system 0.003224s  (98.237338 % CPU utilization, 1 cores allowed)
+load : 0.073580442s - 0.073580442s, avg 0.073580442s +/- 0
+compute: 8.4831998e-05s - 8.4831998e-05s, avg 8.4831998e-05s +/- 0
+====
+Processing images/test2048.png ...
+====
+total: real 0.076243359s, user 0.073408s, system 0.001949s  (98.837461 % CPU utilization, 1 cores allowed)
+load : 0.073083414s - 0.073083414s, avg 0.073083414s +/- 0
+compute: 0.00016121601s - 0.00016121601s, avg 0.00016121601s +/- 0
+====
+Processing images/test2048.png ...
+====
+total: real 0.076245585s, user 0.072331s, system 0.00294s  (98.721782 % CPU utilization, 1 cores allowed)
+load : 0.073100355s - 0.073100355s, avg 0.073100355s +/- 0
+compute: 9.1519997e-05s - 9.1519997e-05s, avg 9.1519997e-05s +/- 0
+====
+Processing images/color4096.png ...
+====
+total: real 0.3608786s, user 0.274788s, system 0.076895s  (97.451885 % CPU utilization, 1 cores allowed)
+load : 0.28987473s - 0.28987473s, avg 0.28987473s +/- 0
+compute: 0.004668736s - 0.004668736s, avg 0.004668736s +/- 0
+====
+Processing images/color4096.png ...
+====
+total: real 0.27777715s, user 0.254064s, system 0.022952s  (99.725986 % CPU utilization, 1 cores allowed)
+load : 0.26373244s - 0.26373244s, avg 0.26373244s +/- 0
+compute: 0.00064486402s - 0.00064486402s, avg 0.00064486402s +/- 0
+====
+Processing images/color4096.png ...
+====
+total: real 0.27636361s, user 0.262894s, system 0.01295s  (99.811984 % CPU utilization, 1 cores allowed)
+load : 0.26258724s - 0.26258724s, avg 0.26258724s +/- 0
+compute: 0.00063526398s - 0.00063526398s, avg 0.00063526398s +/- 0
+====
+Processing images/color4096.png ...
+====
+total: real 0.27625615s, user 0.257576s, system 0.018187s  (99.821487 % CPU utilization, 1 cores allowed)
+load : 0.262745s - 0.262745s, avg 0.262745s +/- 0
+compute: 0.00062995201s - 0.00062995201s, avg 0.00062995201s +/- 0
+====
+Processing images/color4096.png ...
+====
+total: real 0.27550478s, user 0.252859s, system 0.021966s  (99.753259 % CPU utilization, 1 cores allowed)
+load : 0.26190679s - 0.26190679s, avg 0.26190679s +/- 0
+compute: 0.00063347203s - 0.00063347203s, avg 0.00063347203s +/- 0
+====
+Processing images/test3968x2944.png ...
+====
+total: real 0.32915215s, user 0.244544s, system 0.078093s  (98.020626 % CPU utilization, 1 cores allowed)
+load : 0.24715483s - 0.24715483s, avg 0.24715483s +/- 0
+compute: 0.0035947521s - 0.0035947521s, avg 0.0035947521s +/- 0
+====
+Processing images/test3968x2944.png ...
+====
+total: real 0.23286953s, user 0.217768s, system 0.014629s  (99.797086 % CPU utilization, 1 cores allowed)
+load : 0.22253962s - 0.22253962s, avg 0.22253962s +/- 0
+compute: 0.00045680001s - 0.00045680001s, avg 0.00045680001s +/- 0
+====
+Processing images/test3968x2944.png ...
+====
+total: real 0.23101087s, user 0.217617s, system 0.012949s  (99.807426 % CPU utilization, 1 cores allowed)
+load : 0.22147965s - 0.22147965s, avg 0.22147965s +/- 0
+compute: 0.00044995201s - 0.00044995201s, avg 0.00044995201s +/- 0
+====
+Processing images/test3968x2944.png ...
+====
+total: real 0.2307322s, user 0.217142s, system 0.013032s  (99.758075 % CPU utilization, 1 cores allowed)
+load : 0.2212454s - 0.2212454s, avg 0.2212454s +/- 0
+compute: 0.000461344s - 0.000461344s, avg 0.000461344s +/- 0
+====
+Processing images/test3968x2944.png ...
+====
+total: real 0.23131046s, user 0.21476s, system 0.015976s  (99.751649 % CPU utilization, 1 cores allowed)
+load : 0.22174943s - 0.22174943s, avg 0.22174943s +/- 0
+compute: 0.00046374401s - 0.00046374401s, avg 0.00046374401s +/- 0
+====
