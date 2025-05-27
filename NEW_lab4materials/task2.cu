@@ -104,20 +104,133 @@ op_tile_composite(image_t *background,
 }
 
 
+__global__ void tile_global(uint32_t *dst, int bg_width, int bg_height, int bg_rowbytes,
+                            const uint32_t *tile, int tile_width, int tile_height, int tile_rowbytes,
+                            const float alpha)
+{
+    // Compute the (x, y) coordinates of the pixel this thread will process
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+    // Exit if the thread is outside the bounds of the background image
+    if (x >= bg_width || y >= bg_height) return;
+
+    // Calculate the number of uint32_t elements per row for background and tile
+    const int bg_pitch   = bg_rowbytes   >> 2;      // rowstride in uint32_t words
+    const int tile_pitch = tile_rowbytes >> 2;
+
+    // Fetch the background pixel at (x, y)
+    uint32_t bg_pix = dst[y * bg_pitch + x];
+
+    // Compute the corresponding tile coordinates (tx, ty) using modulo for tiling
+    int tx = x % tile_width;
+    int ty = y % tile_height;
+    // Fetch the tile pixel at (tx, ty)
+    uint32_t tile_pix = tile[ty * tile_pitch + tx];
+
+    // Unpack both pixels from uint32_t to float4/rgba_t for blending
+    rgba_t b, t;
+    RGBA_unpack(b, bg_pix);     // Unpack background pixel
+    RGBA_unpack(t, tile_pix);   // Unpack tile pixel
+
+    // Perform alpha blending:
+    //   b = (1 - alpha) * b (scales all channels, including alpha)
+    //   t = alpha * t
+    //   out = b + t (component-wise addition)
+    rgba_t out;
+    RGBA_mults(b, b, 1.f - alpha);   // Scale background by (1 - alpha)
+    RGBA_mults(t, t,        alpha);  // Scale tile by alpha
+    RGBA_add(out, b, t);             // Add the two results
+
+    // Pack the blended result back into uint32_t and store it
+    RGBA_pack(bg_pix, out);
+    dst[y * bg_pitch + x] = bg_pix;
+}
+
+// Shared memory kernel for tile compositing
+__global__ void tile_shared(uint32_t *dst, int bg_width, int bg_height, int bg_rowbytes,
+                            const uint32_t *tile, int tile_width, int tile_height, int tile_rowbytes,
+                            const float alpha)
+{
+    // Shared memory for the tile (allocated dynamically)
+    extern __shared__ uint32_t tile_shmem[];
+
+    // Calculate the number of uint32_t elements per row for tile
+    const int tile_pitch = tile_rowbytes >> 2;
+
+    // Each thread loads one or more tile pixels into shared memory
+    int tile_size = tile_width * tile_height;
+    int thread_id = threadIdx.y * blockDim.x + threadIdx.x;
+    int block_threads = blockDim.x * blockDim.y;
+    for (int i = thread_id; i < tile_size; i += block_threads) {
+        int tx = i % tile_width;
+        int ty = i / tile_width;
+        tile_shmem[i] = tile[ty * tile_pitch + tx];
+    }
+    __syncthreads();
+
+    // Compute the (x, y) coordinates of the pixel this thread will process
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+    if (x >= bg_width || y >= bg_height) return;
+
+    // Calculate the number of uint32_t elements per row for background
+    const int bg_pitch = bg_rowbytes >> 2;
+
+    // Fetch the background pixel at (x, y)
+    uint32_t bg_pix = dst[y * bg_pitch + x];
+
+    // Compute the corresponding tile coordinates (tx, ty) using modulo for tiling
+    int tx = x % tile_width;
+    int ty = y % tile_height;
+    // Fetch the tile pixel from shared memory
+    uint32_t tile_pix = tile_shmem[ty * tile_width + tx];
+
+    // Unpack both pixels from uint32_t to float4/rgba_t for blending
+    rgba_t b, t;
+    RGBA_unpack(b, bg_pix);     // Unpack background pixel
+    RGBA_unpack(t, tile_pix);   // Unpack tile pixel
+
+    // Perform alpha blending:
+    //   b = (1 - alpha) * b (scales all channels, including alpha)
+    //   t = alpha * t
+    //   out = b + t (component-wise addition)
+    rgba_t out;
+    RGBA_mults(b, b, 1.f - alpha);   // Scale background by (1 - alpha)
+    RGBA_mults(t, t,        alpha);  // Scale tile by alpha
+    RGBA_add(out, b, t);             // Add the two results
+
+    // Pack the blended result back into uint32_t and store it
+    RGBA_pack(bg_pix, out);
+    dst[y * bg_pitch + x] = bg_pix;
+}
+
+
+
 
 /* Returns elapsed time in msec */
 static float
 run_cuda_kernels(image_t *background[], const size_t nImages,
                  const image_t *tile)
 {
-  /* TODO: allocate buffers to contain background images and tile image. */
+  /* TODO: allocate buffers to contain background image. */
+  uint32_t *d_bg = nullptr, *d_tile = nullptr;
+  size_t bg_bytes = background[0]->rowstride * background[0]->height;
+  size_t tile_bytes = tile->rowstride * tile->height;
 
-  /* TODO: copy the input image(s) to the background buffer allocated
-   * on the GPU. And similar for the tile.
-   */
+  cudaMalloc(&d_bg, bg_bytes);
+  cudaMalloc(&d_tile, tile_bytes);
+
+  cudaMemcpy(d_bg, background[0]->data, bg_bytes, cudaMemcpyHostToDevice);
+  cudaMemcpy(d_tile, tile->data, tile_bytes, cudaMemcpyHostToDevice);
 
   /* TODO: calculate the block size and number of thread blocks. */
+  dim3 block(16, 16); 
+  int PPTx = 1;
+  int PPTy = 1;
+  size_t sharedMem = tile->width * tile->height * sizeof(uint32_t);
 
+  dim3 grid((background[0]->width + (block.x * PPTx - 1)) / (block.x * PPTx),
+            (background[0]->height + (block.y * PPTy - 1)) / (block.y * PPTy));
 
   /* "computetime" will only include the actual time taken by the GPU
    * to perform the image operation. So, this excludes image loading,
@@ -134,10 +247,17 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
    * of the kernel, you can choose which one to run here. Or make copies
    * of this run_cuda_kernels() function.
    */
-#if 0
-  op_tile_composite(background, tile, 0.2f);
-#endif
+// #if 0
+//   op_tile_composite(background, tile, 0.2f);
+// #endif
 
+  tile_global<<<grid, block>>>(d_bg, background[0]->width, background[0]->height, background[0]->rowstride,
+                              d_tile, tile->width, tile->height, tile->rowstride,
+                              0.2f);
+
+  // tile_shared<<<grid, block, sharedMem>>>(d_bg, background[0]->width, background[0]->height, background[0]->rowstride,
+  //                                       d_tile,tile->width, tile->height, tile->rowstride,
+  //                                       0.2f);
 
   CUDA_ASSERT( cudaGetLastError() );
 
@@ -148,9 +268,10 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
   float msec = 0;
   CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
 
-  /* TODO: copy the result buffer back to CPU host memory. */
+  cudaMemcpy(background[0]->data, d_bg, bg_bytes, cudaMemcpyDeviceToHost);
 
-  /* TODO: release GPU memory */
+  cudaFree(d_bg);
+  cudaFree(d_tile);
 
   return msec;
 }

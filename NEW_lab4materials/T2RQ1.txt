@@ -1,0 +1,71 @@
+
+SHARED MEM
+
+Processing frames//frame0318.png ...
+====
+total: real 0.084597331s, user 0.039659s, system 0.038425s  (92.300784 % CPU utilization, 1 cores allowed)
+load : 0.031688164s - 0.031688164s, avg 0.031688164s +/- 0
+compute: 0.00021401601s - 0.00021401601s, avg 0.00021401601s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.03359869s, user 0.030469s, system 0.002412s  (97.863935 % CPU utilization, 1 cores allowed)
+load : 0.031524167s - 0.031524167s, avg 0.031524167s +/- 0
+compute: 0.00019968s - 0.00019968s, avg 0.00019968s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.031632941s, user 0.029286s, system 0.001662s  (97.834722 % CPU utilization, 1 cores allowed)
+load : 0.029595248s - 0.029595248s, avg 0.029595248s +/- 0
+compute: 0.00019865599s - 0.00019865599s, avg 0.00019865599s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.032709185s, user 0.030952s, system 4.2e-05s  (94.756259 % CPU utilization, 1 cores allowed)
+load : 0.030651413s - 0.030651413s, avg 0.030651413s +/- 0
+compute: 0.00019904s - 0.00019904s, avg 0.00019904s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.032333774s, user 0.029436s, system 0.001868s  (96.815175 % CPU utilization, 1 cores allowed)
+load : 0.029890341s - 0.029890341s, avg 0.029890341s +/- 0
+compute: 0.00019865599s - 0.00019865599s, avg 0.00019865599s +/- 0
+====
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+GLOBAL MEMORY
+
+Processing frames//frame0318.png ...
+====
+total: real 0.10341553s, user 0.048433s, system 0.043113s  (88.52249 % CPU utilization, 1 cores allowed)
+load : 0.043679077s - 0.043679077s, avg 0.043679077s +/- 0
+compute: 7.9871997e-05s - 7.9871997e-05s, avg 7.9871997e-05s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.034104398s, user 0.028637s, system 0.00438s  (96.811561 % CPU utilization, 1 cores allowed)
+load : 0.03202847s - 0.03202847s, avg 0.03202847s +/- 0
+compute: 6.7584001e-05s - 6.7584001e-05s, avg 6.7584001e-05s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.033511076s, user 0.031095s, system 0s  (92.790217 % CPU utilization, 1 cores allowed)
+load : 0.03149187s - 0.03149187s, avg 0.03149187s +/- 0
+compute: 6.6592e-05s - 6.6592e-05s, avg 6.6592e-05s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.031804549s, user 0.030096s, system 0.000841s  (97.272249 % CPU utilization, 1 cores allowed)
+load : 0.029899356s - 0.029899356s, avg 0.029899356s +/- 0
+compute: 5.632e-05s - 5.632e-05s, avg 5.632e-05s +/- 0
+====
+Processing frames//frame0318.png ...
+====
+total: real 0.032018706s, user 0.02946s, system 0.001415s  (96.428007 % CPU utilization, 1 cores allowed)
+load : 0.030152571s - 0.030152571s, avg 0.030152571s +/- 0
+compute: 6.7584001e-05s - 6.7584001e-05s, avg 6.7584001e-05s +/- 0
+====

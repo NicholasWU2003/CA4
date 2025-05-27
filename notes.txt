@@ -30,3 +30,9 @@ cd /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png
 ./task1 -r 5 images/test2048.png >> Results/T1RQ3.txt
 ./task1 -r 5 images/color4096.png >> Results/T1RQ3.txt
 ./task1 -r 5 images/test3968x2944.png >> Results/T1RQ3.txt
+
+
+./task2 -1 frames/ images/tux64.png
+./task2 -t frames/ images/tux64.png
+
+./task2 -1 -r 5 frames/ images/tux64.png
