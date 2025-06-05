@@ -215,70 +215,54 @@ __global__ void tile_shared_batched(uint32_t **dst_batch, int bg_width, int bg_h
     }
 }
 
-// Forward declarations for functions used before definition
-static float run_cuda_kernels(image_t *background[], const size_t nImages, const image_t *tile);
-static float run_cuda_kernels_overlapped(image_t *background[], const size_t nImages, const image_t *tile, int totalBatches);
-static float run_cuda_kernels_with_batches(image_t *background[], const size_t nImages, const image_t *tile, int totalBatches);
-static void process_images_overlapped(ExperimentTimer &timer,
-                                    const std::vector<std::vector<std::string>> &batch_infilenames,
-                                    const image_t *tile,
-                                    const std::vector<std::vector<std::string>> &batch_outfilenames);
-
-/* Enhanced run_cuda_kernels function specifically designed for overlapped processing */
+/* Enhanced run_cuda_kernels function with overlapping data transfer and compute */
 static float
-run_cuda_kernels_overlapped(image_t *background[], const size_t nImages,
-                           const image_t *tile, int totalBatches)
+run_cuda_kernels_overlapped(image_t ***backgrounds, const size_t nBatches,
+                           const size_t nImagesPerBatch, const image_t *tile)
 {
   // Create multiple streams for overlapped processing
   const int nStreams = 2;  // Use 2 streams for overlapping
   cudaStream_t streams[nStreams];
-  for (int i = 0; i < nStreams; i++) {
-    CUDA_ASSERT(cudaStreamCreate(&streams[i]));
+  for (int s = 0; s < nStreams; s++) {
+    CUDA_ASSERT(cudaStreamCreate(&streams[s]));
   }
 
   /* Allocate device memory for tile (shared across all streams) */
   uint32_t *d_tile = nullptr;
-  size_t bg_bytes = background[0]->rowstride * background[0]->height;
+  size_t bg_bytes = backgrounds[0][0]->rowstride * backgrounds[0][0]->height;
   size_t tile_bytes = tile->rowstride * tile->height;
-
-  // Pin host memory for asynchronous transfers (CRITICAL for overlap!)
-  for (size_t i = 0; i < nImages; i++) {
-    CUDA_ASSERT(cudaHostRegister(background[i]->data, bg_bytes, cudaHostRegisterDefault));
-  }
 
   // Allocate memory for tile
   CUDA_ASSERT(cudaMalloc(&d_tile, tile_bytes));
   CUDA_ASSERT(cudaMemcpy(d_tile, tile->data, tile_bytes, cudaMemcpyHostToDevice));
 
-  // For overlapped processing, we need separate memory spaces for each stream
+  // For overlapped processing, we need separate device buffer sets for each stream
   uint32_t **d_bg_array[nStreams];
   uint32_t **h_bg_pointers[nStreams];
   
   // Allocate resources for each stream
   for (int s = 0; s < nStreams; s++) {
     // Allocate device memory for array of pointers
-    CUDA_ASSERT(cudaMalloc(&d_bg_array[s], nImages * sizeof(uint32_t*)));
+    CUDA_ASSERT(cudaMalloc(&d_bg_array[s], nImagesPerBatch * sizeof(uint32_t*)));
     
     // Allocate host array to hold device pointers
-    h_bg_pointers[s] = new uint32_t*[nImages];
+    h_bg_pointers[s] = new uint32_t*[nImagesPerBatch];
     
     // Allocate device memory for each background image
-    for (size_t i = 0; i < nImages; i++) {
+    for (size_t i = 0; i < nImagesPerBatch; i++) {
       CUDA_ASSERT(cudaMalloc(&h_bg_pointers[s][i], bg_bytes));
     }
-  }
-
-  // Prime d_bg_array with initial pointer lists (CRITICAL!)
-  for (int s = 0; s < nStreams; s++) {
+    
+    // Copy device pointers to device
     CUDA_ASSERT(cudaMemcpy(d_bg_array[s], h_bg_pointers[s], 
-                           nImages * sizeof(uint32_t*), cudaMemcpyHostToDevice));
+                           nImagesPerBatch * sizeof(uint32_t*), cudaMemcpyHostToDevice));
   }
 
   /* Calculate block size and grid dimensions */
   dim3 block(16, 16); 
   size_t sharedMem = tile->width * tile->height * sizeof(uint32_t);
-  dim3 grid((background[0]->width + block.x - 1) / block.x,
-            (background[0]->height + block.y - 1) / block.y);
+  dim3 grid((backgrounds[0][0]->width + block.x - 1) / block.x,
+            (backgrounds[0][0]->height + block.y - 1) / block.y);
 
   /* Timing setup */
   cudaEvent_t start, stop;
@@ -288,46 +272,34 @@ run_cuda_kernels_overlapped(image_t *background[], const size_t nImages,
   /* Start the timer */
   CUDA_ASSERT(cudaEventRecord(start));
 
-  // True overlapped processing implementation with proper pipelining
-  // This demonstrates the pipeline: while one stream is computing, 
-  // the other stream can be transferring data
+  // Overlapped processing pipeline implementation
+  // Pipeline: H2D transfer → kernel execution → D2H transfer
+  // While one stream is doing D2H transfer, the other can start H2D for next batch
   
-  for (int batch = 0; batch < totalBatches; batch++) {
+  for (int batch = 0; batch < nBatches; batch++) {
     int streamId = batch % nStreams;
     
     // Pipeline stage 1: Asynchronous H2D transfer
-    for (size_t i = 0; i < nImages; i++) {
-      CUDA_ASSERT(cudaMemcpyAsync(h_bg_pointers[streamId][i], background[i]->data, 
+    for (size_t i = 0; i < nImagesPerBatch; i++) {
+      CUDA_ASSERT(cudaMemcpyAsync(h_bg_pointers[streamId][i], backgrounds[batch][i]->data, 
                                   bg_bytes, cudaMemcpyHostToDevice, streams[streamId]));
     }
     
-    // Update device pointer array after H2D transfers (CRITICAL!)
-    CUDA_ASSERT(cudaMemcpyAsync(d_bg_array[streamId], h_bg_pointers[streamId], 
-                                nImages * sizeof(uint32_t*), cudaMemcpyHostToDevice, streams[streamId]));
-    
     // Pipeline stage 2: Kernel execution (will wait for H2D to complete)
-    
-    // OPTION 1: Global Memory Kernel 
-    // tile_global_batched<<<grid, block, 0, streams[streamId]>>>(
-    //     d_bg_array[streamId], background[0]->width, background[0]->height, background[0]->rowstride,
-    //     d_tile, tile->width, tile->height, tile->rowstride, 0.2f, nImages);
-    
-    // OPTION 2: Shared Memory Kernel (uncomment to test)
     tile_shared_batched<<<grid, block, sharedMem, streams[streamId]>>>(
-        d_bg_array[streamId], background[0]->width, background[0]->height, background[0]->rowstride,
-        d_tile, tile->width, tile->height, tile->rowstride, 0.2f, nImages);
+        d_bg_array[streamId], backgrounds[0][0]->width, backgrounds[0][0]->height, backgrounds[0][0]->rowstride,
+        d_tile, tile->width, tile->height, tile->rowstride, 0.2f, nImagesPerBatch);
 
     CUDA_ASSERT(cudaGetLastError());
     
     // Pipeline stage 3: Asynchronous D2H transfer
-    for (size_t i = 0; i < nImages; i++) {
-      CUDA_ASSERT(cudaMemcpyAsync(background[i]->data, h_bg_pointers[streamId][i], 
+    for (size_t i = 0; i < nImagesPerBatch; i++) {
+      CUDA_ASSERT(cudaMemcpyAsync(backgrounds[batch][i]->data, h_bg_pointers[streamId][i], 
                                   bg_bytes, cudaMemcpyDeviceToHost, streams[streamId]));
     }
     
     // The key benefit: while stream[streamId] is doing D2H transfer,
     // stream[(streamId+1)%nStreams] can start H2D transfer for the next batch
-    // This overlapping reduces overall execution time
   }
 
   // Synchronize all streams to ensure all work is complete
@@ -342,17 +314,9 @@ run_cuda_kernels_overlapped(image_t *background[], const size_t nImages,
   float msec = 0;
   CUDA_ASSERT(cudaEventElapsedTime(&msec, start, stop));
 
-  /* Cleanup - ensure all GPU work is complete before unpinning memory */
-  CUDA_ASSERT(cudaDeviceSynchronize());
-  
-  /* Unpin host memory */
-  for (size_t i = 0; i < nImages; i++) {
-    CUDA_ASSERT(cudaHostUnregister(background[i]->data));
-  }
-
   /* Cleanup device memory */
   for (int s = 0; s < nStreams; s++) {
-    for (size_t i = 0; i < nImages; i++) {
+    for (size_t i = 0; i < nImagesPerBatch; i++) {
       CUDA_ASSERT(cudaFree(h_bg_pointers[s][i]));
     }
     CUDA_ASSERT(cudaFree(d_bg_array[s]));
@@ -365,23 +329,62 @@ run_cuda_kernels_overlapped(image_t *background[], const size_t nImages,
   return msec;
 }
 
-/* Returns elapsed time in msec */
+/* Returns elapsed time in msec - wrapper for overlapped function */
 static float
 run_cuda_kernels(image_t *background[], const size_t nImages,
                  const image_t *tile)
 {
-  // For single batch processing, use the overlapped version with 1 batch
-  // In real applications, this would be called with multiple batches
-  return run_cuda_kernels_overlapped(background, nImages, tile, 1);
+  // For single batch processing, create a temporary 2D array structure
+  image_t **batch_array[1];
+  batch_array[0] = background;
+  return run_cuda_kernels_overlapped(batch_array, 1, nImages, tile);
 }
 
-/* Enhanced function for processing multiple batches with overlapping */
-static float
-run_cuda_kernels_with_batches(image_t *background[], const size_t nImages,
-                             const image_t *tile, int totalBatches)
+/* Simplified process_images function with overlapping (similar to task3 structure) */
+static void
+process_images_overlapped(size_t batchIndex, ExperimentTimer &timer,
+                          const std::vector<std::string> &infilenames,
+                          const image_t *tile,
+                          const std::vector<std::string> &outfilenames)
 {
-  return run_cuda_kernels_overlapped(background, nImages, tile, totalBatches);
+  /* Load images for this batch */
+  image_t *background[infilenames.size()];
+
+  auto startTime = ExperimentTimer::now();
+  for (size_t j = 0; j < infilenames.size(); ++j)
+    {
+      background[j] = image_new_from_pngfile(infilenames[j].c_str());
+      if (!background[j])
+        return;
+      
+      /* Pin host memory for efficient async transfers */
+      CUDA_ASSERT(cudaHostRegister(background[j]->data,
+                                   background[j]->rowstride * background[j]->height,
+                                   cudaHostRegisterDefault));
+    }
+  auto endTime = ExperimentTimer::now();
+
+  timer.setLoadTime(batchIndex, endTime, startTime);
+
+  /* Run CUDA kernels with overlapping for this batch */
+  float msec = run_cuda_kernels_overlapped(background, infilenames.size(), tile);
+  timer.setComputeTime(batchIndex, msec / 1000.);
+
+  /* Save results if desired and if applicable */
+  if (not outfilenames.empty())
+    {
+      for (size_t j = 0; j < outfilenames.size(); ++j)
+        image_save_as_pngfile(background[j], outfilenames[j].c_str());
+    }
+
+  /* Cleanup */
+  for (size_t j = 0; j < infilenames.size(); ++j)
+    {
+      CUDA_ASSERT(cudaHostUnregister(background[j]->data));
+      image_free(background[j]);
+    }
 }
+
 
 static void
 run_test(const std::string &infilename, image_t *tile,
@@ -402,8 +405,16 @@ run_test(const std::string &infilename, image_t *tile,
   /* Run CPU kernels */
   op_tile_composite(original, tile, 0.2f);
 
+  /* Pin host memory for overlapped processing */
+  CUDA_ASSERT(cudaHostRegister(background[0]->data,
+                               background[0]->rowstride * background[0]->height,
+                               cudaHostRegisterDefault));
+
   /* Run GPU kernels */
   run_cuda_kernels(background, 1, tile);
+
+  /* Unpin host memory */
+  CUDA_ASSERT(cudaHostUnregister(background[0]->data));
 
   /* Compare the results */
   const int max_error = 64;
@@ -425,92 +436,6 @@ run_test(const std::string &infilename, image_t *tile,
   image_free(background[0]);
 }
 
-/* Process a single image, or set/batch of images.. Warning: does not detect
- * errors.
- */
-static void
-process_images(size_t i, ExperimentTimer &timer,
-               const std::vector<std::string> &infilenames,
-               const image_t *tile,
-               const std::vector<std::string> &outfilenames)
-{
-  /* Load image */
-  image_t *background[infilenames.size()];
-
-  auto startTime = ExperimentTimer::now();
-  for (size_t j = 0; j < infilenames.size(); ++j)
-    {
-      background[j] = image_new_from_pngfile(infilenames[j].c_str());
-      if (!background[j])
-        return;
-    }
-  auto endTime = ExperimentTimer::now();
-
-  timer.setLoadTime(i, endTime, startTime);
-
-  // Use standard single-batch processing
-  float msec = run_cuda_kernels(background, infilenames.size(), tile);
-  timer.setComputeTime(i, msec / 1000.);
-
-  /* Save results if desired and if applicable */
-  if (not outfilenames.empty())
-    {
-      for (size_t j = 0; j < outfilenames.size(); ++j)
-        image_save_as_pngfile(background[j], outfilenames[j].c_str());
-    }
-
-  for (size_t j = 0; j < infilenames.size(); ++j)
-    image_free(background[j]);
-}
-
-/* Enhanced process function for multiple batches with overlapping */
-static void
-process_images_overlapped(ExperimentTimer &timer,
-                         const std::vector<std::vector<std::string>> &batch_infilenames,
-                         const image_t *tile,
-                         const std::vector<std::vector<std::string>> &batch_outfilenames)
-{
-  int totalBatches = batch_infilenames.size();
-  
-  // For overlapping, we need to process all batches together
-  // This implementation simulates multiple batches by processing the same data multiple times
-  // In a real scenario, you would have different data for each batch
-  
-  if (totalBatches == 0) return;
-  
-  // Use the first batch's data as representative
-  const auto &infilenames = batch_infilenames[0];
-  const auto &outfilenames = batch_outfilenames.size() > 0 ? batch_outfilenames[0] : std::vector<std::string>();
-  
-  /* Load image */
-  image_t *background[infilenames.size()];
-
-  auto startTime = ExperimentTimer::now();
-  for (size_t j = 0; j < infilenames.size(); ++j)
-    {
-      background[j] = image_new_from_pngfile(infilenames[j].c_str());
-      if (!background[j])
-        return;
-    }
-  auto endTime = ExperimentTimer::now();
-
-  timer.setLoadTime(0, endTime, startTime);
-
-  // Use overlapped processing with multiple batches
-  float msec = run_cuda_kernels_with_batches(background, infilenames.size(), tile, totalBatches);
-  timer.setComputeTime(0, msec / 1000.);
-
-  /* Save results if desired and if applicable */
-  if (not outfilenames.empty())
-    {
-      for (size_t j = 0; j < outfilenames.size(); ++j)
-        image_save_as_pngfile(background[j], outfilenames[j].c_str());
-    }
-
-  for (size_t j = 0; j < infilenames.size(); ++j)
-    image_free(background[j]);
-}
-
 /* Code to run a single experiment, depending on batchSize parameter. */
 static void
 run_experiment(Experiment &exp,
@@ -521,61 +446,28 @@ run_experiment(Experiment &exp,
 
   timer.start();
 
-  // Check if we can benefit from overlapped processing
-  size_t numBatches = exp.getNBatches();
+  // Collect ALL batches for cross-batch overlapped processing
+  std::vector<std::vector<std::string>> all_batch_filenames;
+  std::vector<std::vector<std::string>> all_batch_outfilenames;
   
-  if (numBatches > 1) {
-    // Use overlapped processing for multiple batches
-    std::vector<std::vector<std::string>> batch_infilenames;
-    std::vector<std::vector<std::string>> batch_outfilenames;
-    
-    // Collect all batch data
-    for (size_t i = 0; i < numBatches; ++i) {
-      size_t count = exp.getBatchSize(i);
-      std::vector<std::string> infilenames;
-      std::vector<std::string> outfilenames;
+  for (size_t i = 0; i < exp.getNBatches(); ++i) {
+    size_t count = exp.getBatchSize(i);
+    std::vector<std::string> infilenames;
+    std::vector<std::string> outfilenames;
 
-      for (size_t j = 0; j < count; ++j) {
-        infilenames.emplace_back(indir + std::string("/") + exp.getFrameFile(i, j));
-        if (not outdir.empty())
-          outfilenames.emplace_back(outdir + std::string("/") + exp.getFrameFile(i, j));
-      }
-      
-      batch_infilenames.push_back(infilenames);
-      batch_outfilenames.push_back(outfilenames);
+    for (size_t j = 0; j < count; ++j) {
+      infilenames.emplace_back(indir + std::string("/") + exp.getFrameFile(i, j));
+      if (not outdir.empty())
+        outfilenames.emplace_back(outdir + std::string("/") + exp.getFrameFile(i, j));
     }
     
-    // Process all batches with overlapping
-    process_images_overlapped(timer, batch_infilenames, tile, batch_outfilenames);
-    
-  } else {
-    // Standard single-batch processing
-    for (size_t i = 0; i < exp.getNBatches(); ++i)
-      {
-        size_t count = exp.getBatchSize(i);
-
-        std::vector<std::string> infilenames;
-        std::vector<std::string> outfilenames;
-
-        for (size_t j = 0; j < count; ++j)
-          {
-            infilenames.emplace_back(indir + std::string("/") + exp.getFrameFile(i, j));
-            if (not outdir.empty())
-              outfilenames.emplace_back(outdir + std::string("/") + exp.getFrameFile(i, j));
-          }
-
-        // if (not silentMode)
-        //   {
-        //     if (count == 1)
-        //       std::cout << "Processing " << infilenames[0] << " ...\n" << std::flush;
-        //     else
-        //       std::cout << "Processing " << infilenames[0] << " - "
-        //                 << infilenames[count - 1] << "...\n" << std::flush;
-        //   }
-
-        process_images(i, timer, infilenames, tile, outfilenames);
-      }
+    all_batch_filenames.push_back(infilenames);
+    all_batch_outfilenames.push_back(outfilenames);
   }
+  
+  // Process ALL batches with TRUE cross-batch overlapping!
+  for (size_t i = 0; i < all_batch_filenames.size(); ++i)
+    process_images_overlapped(i, timer, all_batch_filenames[i], tile, all_batch_outfilenames[i]);
 
   /* Note that the full timing of the experiment will include image
    * loading & saving time and memory transfers to and from the GPU.

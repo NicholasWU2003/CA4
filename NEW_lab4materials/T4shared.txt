@@ -1,45 +1,18 @@
+Debug: process_images_overlapped: batches=128
 ====
-total: real 65.19698s, user 28.092061s, system 1.015874s  (44.64614 % CPU utilization, 1 cores allowed)
-load : 0s - 1.4361093s, avg 1.0490103s +/- 0.22016672
-compute: 0s - 0.018678017s, avg 0.012163457s +/- 0.001956251
+total: real 15.387263s, user 13.411997s, system 1.342179s  (95.88564 % CPU utilization, 1 cores allowed)
+load : 14.858398s - 14.858398s, avg 14.858398s +/- 1.7763568e-14
+compute: 0.0029708631s - 0.0029708631s, avg 0.0029708631s +/- 3.469447e-18
 ====
+Debug: process_images_overlapped: batches=128
 ====
-total: real 15.524136s, user 14.590507s, system 0.52751s  (97.383951 % CPU utilization, 1 cores allowed)
-load : 0s - 0.28880283s, avg 0.2387646s +/- 0.039156135
-compute: 0s - 0.01216512s, avg 0.011649156s +/- 0.0015060899
+total: real 15.277824s, user 13.317734s, system 1.278855s  (95.541019 % CPU utilization, 1 cores allowed)
+load : 14.743239s - 14.743239s, avg 14.743239s +/- 2.6645353e-14
+compute: 0.0029712861s - 0.0029712861s, avg 0.0029712861s +/- 6.505213e-18
 ====
+Debug: process_images_overlapped: batches=128
 ====
-total: real 15.136597s, user 13.973037s, system 0.704631s  (96.968084 % CPU utilization, 1 cores allowed)
-load : 0s - 0.29130802s, avg 0.2320641s +/- 0.039304049
-compute: 0s - 0.013099008s, avg 0.011726378s +/- 0.0015275448
-====
-====
-total: real 0.69746512s, user 0.602644s, system 0.074518s  (97.089012 % CPU utilization, 1 cores allowed)
-load : 0s - 0.25965555s, avg 0.0042566484s +/- 0.032971856
-compute: 0s - 0.36414252s, avg 0.0059695495s +/- 0.046239931
-====
-====
-total: real 0.62053222s, user 0.592498s, system 0.021966s  (99.022094 % CPU utilization, 1 cores allowed)
-load : 0s - 0.24342844s, avg 0.0039906302s +/- 0.030911288
-compute: 0s - 0.36871814s, avg 0.0060445597s +/- 0.046820958
-====
-====
-total: real 0.60896321s, user 0.588952s, system 0.012947s  (98.839961 % CPU utilization, 1 cores allowed)
-load : 0s - 0.23223474s, avg 0.0038071269s +/- 0.029489878
-compute: 0s - 0.36852838s, avg 0.0060414489s +/- 0.046796862
-====
-====
-total: real 0.69698231s, user 0.608627s, system 0.07004s  (97.372198 % CPU utilization, 1 cores allowed)
-load : 0s - 0.25990612s, avg 0.0042607561s +/- 0.033003675
-compute: 0s - 0.37109659s, avg 0.0060835506s +/- 0.047122981
-====
-====
-total: real 0.63037094s, user 0.595428s, system 0.02805s  (98.906527 % CPU utilization, 1 cores allowed)
-load : 0s - 0.24408404s, avg 0.0040013777s +/- 0.030994538
-compute: 0s - 0.37702368s, avg 0.0061807161s +/- 0.047875621
-====
-====
-total: real 0.61579139s, user 0.597336s, system 0.011895s  (98.934641 % CPU utilization, 1 cores allowed)
-load : 0s - 0.23004356s, avg 0.0037712058s +/- 0.029211635
-compute: 0s - 0.37685452s, avg 0.006177943s +/- 0.047854141
+total: real 15.443704s, user 13.462592s, system 1.40977s  (96.300485 % CPU utilization, 1 cores allowed)
+load : 14.888995s - 14.888995s, avg 14.888995s +/- 2.8421709e-14
+compute: 0.0029996471s - 0.0029996471s, avg 0.0029996471s +/- 5.6378513e-18
 ====

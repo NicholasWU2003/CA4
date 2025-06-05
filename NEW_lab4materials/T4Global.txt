@@ -1,16 +1,1 @@
 
-====
-total: real 0.70475891s, user 0.602287s, system 0.070169s  (95.41646 % CPU utilization, 1 cores allowed)
-load : 0s - 0.26474051s, avg 0.0043400083s +/- 0.03361756
-compute: 0s - 0.36218982s, avg 0.005937538s +/- 0.045991972
-====
-====
-total: real 0.62582205s, user 0.583898s, system 0.03193s  (98.403053 % CPU utilization, 1 cores allowed)
-load : 0s - 0.24661977s, avg 0.0040429471s +/- 0.031316534
-compute: 0s - 0.36990692s, avg 0.0060640479s +/- 0.046971913
-====
-====
-total: real 0.60845416s, user 0.589341s, system 0.009915s  (98.488274 % CPU utilization, 1 cores allowed)
-load : 0s - 0.2295904s, avg 0.003763777s +/- 0.029154091
-compute: 0s - 0.37025278s, avg 0.0060697177s +/- 0.047015831
-====

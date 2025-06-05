@@ -1,0 +1,16 @@
+====
+total: real 15.691632s, user 13.523311s, system 1.399723s  (95.101862 % CPU utilization, 1 cores allowed)
+load : 0s - 0s, avg 0s +/- 0
+compute: 0s - 0s, avg 0s +/- 0
+====
+====
+total: real 15.649564s, user 13.556749s, system 1.260091s  (94.678934 % CPU utilization, 1 cores allowed)
+load : 0s - 0s, avg 0s +/- 0
+compute: 0s - 0s, avg 0s +/- 0
+====
+====
+total: real 15.265721s, user 13.115859s, system 1.349647s  (94.758091 % CPU utilization, 1 cores allowed)
+load : 0s - 0s, avg 0s +/- 0
+compute: 0s - 0s, avg 0s +/- 0
+====
+Debug: process_images_overlapped: batches=121
