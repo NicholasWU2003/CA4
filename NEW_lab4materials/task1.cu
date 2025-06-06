@@ -190,7 +190,15 @@ run_cuda_kernel(image_t *background)
   cudaMemcpy(d_img, background->data, img_bytes, cudaMemcpyHostToDevice);
 
   /* TODO: calculate the block size and number of thread blocks. */
-  dim3 block(64, 64); 
+
+  // for RQ1:
+  // dim3 block(8, 8); 
+  // dim3 grid((background->width + block.x - 1) / block.x,
+  //           (background->height + block.y - 1) / block.y);
+
+
+  // for RQ2:
+  dim3 block(8, 8); 
   int PPTx = 2;
   int PPTy = 2;
   dim3 grid((background->width + (block.x * PPTx - 1)) / (block.x * PPTx),
@@ -216,6 +224,7 @@ run_cuda_kernel(image_t *background)
   //   #if 0
   //   op_grayscale(background, background); /* in-place */
   // #endif
+  // op_cuda_RQ1<<<grid, block>>>(d_img, d_img, background->rowstride, 0, 0, background->width, background->height);
   op_cuda_RQ2<<<grid, block>>>(d_img, d_img, background->rowstride, 0, 0, background->width, background->height);
   CUDA_ASSERT(cudaGetLastError());
 

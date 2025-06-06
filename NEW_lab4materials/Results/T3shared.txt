@@ -1,21 +1,3 @@
-Shared
-
-Batch 1
-====
-total: real 16.339934s, user 14.43686s, system 1.136319s  (95.307477 % CPU utilization, 1 cores allowed)
-load : 0s - 0.15211535s, avg 0.12746834s +/- 0.016289566
-compute: 0s - 0.000377056s, avg 0.000366304s +/- 3.3522933e-05
-====
-====
-total: real 15.812416s, user 13.861929s, system 1.188502s  (95.181095 % CPU utilization, 1 cores allowed)
-load : 0s - 0.14985813s, avg 0.12310809s +/- 0.016771977
-compute: 0s - 0.00037577599s, avg 0.00036618658s +/- 3.3509271e-05
-====
-====
-total: real 15.093901s, user 14.18133s, system 0.258492s  (95.666602 % CPU utilization, 1 cores allowed)
-load : 0s - 0.28654258s, avg 0.2332546s +/- 0.036011047
-compute: 0s - 0.000837632s, avg 0.00080185023s +/- 0.00010364728
-====
 
 +++++++++++++++++++++++++++++
 Batch 2

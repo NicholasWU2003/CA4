@@ -1,23 +1,4 @@
-GLOBALLLLLLLLL
-
-BatchSize 1 ./task3 -b 1 -r 3  frames/ images/tux64.png
-
-
-====
-total: real 0.10449904s, user 0.048077s, system 0.049867s  (93.727172 % CPU utilization, 1 cores allowed)
-load : 0.048139357s - 0.048139357s, avg 0.048139357s +/- 0
-compute: 5.8432002e-05s - 5.8432002e-05s, avg 5.8432002e-05s +/- 0
-====
-====
-total: real 0.033690538s, user 0.031304s, system 0.001252s  (96.632473 % CPU utilization, 1 cores allowed)
-load : 0.03187708s - 0.03187708s, avg 0.03187708s +/- 0
-compute: 5.4272e-05s - 5.4272e-05s, avg 5.4272e-05s +/- 0
-====
-====
-total: real 0.032013279s, user 0.029303s, system 0.00112s  (95.03244 % CPU utilization, 1 cores allowed)
-load : 0.030183545s - 0.030183545s, avg 0.030183545s +/- 0
-compute: 5.6031998e-05s - 5.6031998e-05s, avg 5.6031998e-05s +/- 0
-====
+GLOBAL
 
 ++++++++++++++++++++++++++++++
 Batchsize 2 ./task3 -b 2 -r 3  frames/ images/tux64.png
