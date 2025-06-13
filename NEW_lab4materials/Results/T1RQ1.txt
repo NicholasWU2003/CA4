@@ -1,90 +1,92 @@
-Processing images/test2048.png ...
+1ppt
+
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
 ====
-total: real 0.16692241s, user 0.104868s, system 0.053562s  (94.912363 % CPU utilization, 1 cores allowed)
-load : 0.098479497s - 0.098479497s, avg 0.098479497s +/- 0
-compute: 0.0050765438s - 0.0050765438s, avg 0.0050765438s +/- 0
+total: real 0.40980671s, user 0.312544s, system 0.073052s  (94.092162 % CPU utilization, 1 cores allowed)
+load : 0.33245549s - 0.33245549s, avg 0.33245549s +/- 0
+compute: 0.00055705601s - 0.00055705601s, avg 0.00055705601s +/- 0
 ====
-Processing images/test2048.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
 ====
-total: real 0.094886397s, user 0.08451s, system 0.008829s  (98.369211 % CPU utilization, 1 cores allowed)
-load : 0.091759544s - 0.091759544s, avg 0.091759544s +/- 0
-compute: 8.1248e-05s - 8.1248e-05s, avg 8.1248e-05s +/- 0
+total: real 0.27235564s, user 0.25267s, system 0.018871s  (99.70089 % CPU utilization, 1 cores allowed)
+load : 0.25855172s - 0.25855172s, avg 0.25855172s +/- 0
+compute: 0.00056044799s - 0.00056044799s, avg 0.00056044799s +/- 0
 ====
-Processing images/test2048.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
 ====
-total: real 0.089882913s, user 0.086207s, system 0.0021s  (98.246705 % CPU utilization, 1 cores allowed)
-load : 0.086787734s - 0.086787734s, avg 0.086787734s +/- 0
-compute: 9.0144001e-05s - 9.0144001e-05s, avg 9.0144001e-05s +/- 0
+total: real 0.27240525s, user 0.255099s, system 0.016993s  (99.885007 % CPU utilization, 1 cores allowed)
+load : 0.25860025s - 0.25860025s, avg 0.25860025s +/- 0
+compute: 0.00055936003s - 0.00055936003s, avg 0.00055936003s +/- 0
 ====
-Processing images/test2048.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
 ====
-total: real 0.08967105s, user 0.087205s, system 0.001054s  (98.4253 % CPU utilization, 1 cores allowed)
-load : 0.086544279s - 0.086544279s, avg 0.086544279s +/- 0
-compute: 8.3520003e-05s - 8.3520003e-05s, avg 8.3520003e-05s +/- 0
+total: real 0.27585525s, user 0.25434s, system 0.020783s  (99.734551 % CPU utilization, 1 cores allowed)
+load : 0.26176963s - 0.26176963s, avg 0.26176963s +/- 0
+compute: 0.00056134403s - 0.00056134403s, avg 0.00056134403s +/- 0
 ====
-Processing images/test2048.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/color4096.png ...
 ====
-total: real 0.089467245s, user 0.08712s, system 0.00102s  (98.516502 % CPU utilization, 1 cores allowed)
-load : 0.086332594s - 0.086332594s, avg 0.086332594s +/- 0
-compute: 9.2799999e-05s - 9.2799999e-05s, avg 9.2799999e-05s +/- 0
+total: real 0.27474911s, user 0.247378s, system 0.026049s  (99.518794 % CPU utilization, 1 cores allowed)
+load : 0.26107835s - 0.26107835s, avg 0.26107835s +/- 0
+compute: 0.00055657601s - 0.00055657601s, avg 0.00055657601s +/- 0
 ====
-Processing images/color4096.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test3968x2944.png ...
 ====
-total: real 0.39672387s, user 0.322508s, system 0.064837s  (97.635921 % CPU utilization, 1 cores allowed)
-load : 0.326527s - 0.326527s, avg 0.326527s +/- 0
-compute: 0.0050257282s - 0.0050257282s, avg 0.0050257282s +/- 0
+total: real 0.36019153s, user 0.281122s, system 0.069566s  (97.361534 % CPU utilization, 1 cores allowed)
+load : 0.28921583s - 0.28921583s, avg 0.28921583s +/- 0
+compute: 0.000392416s - 0.000392416s, avg 0.000392416s +/- 0
 ====
-Processing images/color4096.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test3968x2944.png ...
 ====
-total: real 0.31742936s, user 0.291055s, system 0.0251s  (99.598537 % CPU utilization, 1 cores allowed)
-load : 0.30432579s - 0.30432579s, avg 0.30432579s +/- 0
-compute: 0.00054889601s - 0.00054889601s, avg 0.00054889601s +/- 0
+total: real 0.2284491s, user 0.21486s, system 0.012241s  (99.409891 % CPU utilization, 1 cores allowed)
+load : 0.21905885s - 0.21905885s, avg 0.21905885s +/- 0
+compute: 0.00039331201s - 0.00039331201s, avg 0.00039331201s +/- 0
 ====
-Processing images/color4096.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test3968x2944.png ...
 ====
-total: real 0.32185323s, user 0.291546s, system 0.029098s  (99.624291 % CPU utilization, 1 cores allowed)
-load : 0.30850032s - 0.30850032s, avg 0.30850032s +/- 0
-compute: 0.000543136s - 0.000543136s, avg 0.000543136s +/- 0
+total: real 0.22896923s, user 0.218325s, system 0.009168s  (99.355272 % CPU utilization, 1 cores allowed)
+load : 0.21952757s - 0.21952757s, avg 0.21952757s +/- 0
+compute: 0.00039328s - 0.00039328s, avg 0.00039328s +/- 0
 ====
-Processing images/color4096.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test3968x2944.png ...
 ====
-total: real 0.32049281s, user 0.305277s, system 0.013941s  (99.602234 % CPU utilization, 1 cores allowed)
-load : 0.307409s - 0.307409s, avg 0.307409s +/- 0
-compute: 0.00053759998s - 0.00053759998s, avg 0.00053759998s +/- 0
+total: real 0.22865392s, user 0.21426s, system 0.012961s  (99.373325 % CPU utilization, 1 cores allowed)
+load : 0.21915779s - 0.21915779s, avg 0.21915779s +/- 0
+compute: 0.000393664s - 0.000393664s, avg 0.000393664s +/- 0
 ====
-Processing images/color4096.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test3968x2944.png ...
 ====
-total: real 0.32091248s, user 0.301661s, system 0.017983s  (99.604727 % CPU utilization, 1 cores allowed)
-load : 0.30782553s - 0.30782553s, avg 0.30782553s +/- 0
-compute: 0.00054579198s - 0.00054579198s, avg 0.00054579198s +/- 0
+total: real 0.22863494s, user 0.218249s, system 0.008975s  (99.382884 % CPU utilization, 1 cores allowed)
+load : 0.21925498s - 0.21925498s, avg 0.21925498s +/- 0
+compute: 0.00039136001s - 0.00039136001s, avg 0.00039136001s +/- 0
 ====
-Processing images/test3968x2944.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test2048.png ...
 ====
-total: real 0.47994368s, user 0.279634s, system 0.067765s  (72.383284 % CPU utilization, 1 cores allowed)
-load : 0.41794504s - 0.41794504s, avg 0.41794504s +/- 0
-compute: 0.0036772161s - 0.0036772161s, avg 0.0036772161s +/- 0
+total: real 0.17630039s, user 0.118111s, system 0.048645s  (94.586292 % CPU utilization, 1 cores allowed)
+load : 0.11522549s - 0.11522549s, avg 0.11522549s +/- 0
+compute: 0.000202336s - 0.000202336s, avg 0.000202336s +/- 0
 ====
-Processing images/test3968x2944.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test2048.png ...
 ====
-total: real 0.22837148s, user 0.209586s, system 0.017569s  (99.467324 % CPU utilization, 1 cores allowed)
-load : 0.21904581s - 0.21904581s, avg 0.21904581s +/- 0
-compute: 0.000365632s - 0.000365632s, avg 0.000365632s +/- 0
+total: real 0.080585791s, user 0.074039s, system 0.005136s  (98.24933 % CPU utilization, 1 cores allowed)
+load : 0.077347159s - 0.077347159s, avg 0.077347159s +/- 0
+compute: 0.000145312s - 0.000145312s, avg 0.000145312s +/- 0
 ====
-Processing images/test3968x2944.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test2048.png ...
 ====
-total: real 0.22824171s, user 0.216269s, system 0.01085s  (99.508106 % CPU utilization, 1 cores allowed)
-load : 0.21876911s - 0.21876911s, avg 0.21876911s +/- 0
-compute: 0.00037068799s - 0.00037068799s, avg 0.00037068799s +/- 0
+total: real 0.076745463s, user 0.075223s, system 0.000117s  (98.16867 % CPU utilization, 1 cores allowed)
+load : 0.073544482s - 0.073544482s, avg 0.073544482s +/- 0
+compute: 0.000143968s - 0.000143968s, avg 0.000143968s +/- 0
 ====
-Processing images/test3968x2944.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test2048.png ...
 ====
-total: real 0.22945624s, user 0.213716s, system 0.013755s  (99.134809 % CPU utilization, 1 cores allowed)
-load : 0.22012642s - 0.22012642s, avg 0.22012642s +/- 0
-compute: 0.000365632s - 0.000365632s, avg 0.000365632s +/- 0
+total: real 0.07977079s, user 0.075571s, system 0.002948s  (98.430766 % CPU utilization, 1 cores allowed)
+load : 0.07657252s - 0.07657252s, avg 0.07657252s +/- 0
+compute: 0.000143968s - 0.000143968s, avg 0.000143968s +/- 0
 ====
-Processing images/test3968x2944.png ...
+Processing /vol/share/groups/liacs/scratch/ca2023/lab3data/test2048.png ...
 ====
-total: real 0.22837841s, user 0.213671s, system 0.013031s  (99.26595 % CPU utilization, 1 cores allowed)
-load : 0.21903798s - 0.21903798s, avg 0.21903798s +/- 0
-compute: 0.00037379199s - 0.00037379199s, avg 0.00037379199s +/- 0
+total: real 0.07596132s, user 0.073016s, system 0.001879s  (98.596233 % CPU utilization, 1 cores allowed)
+load : 0.07274646s - 0.07274646s, avg 0.07274646s +/- 0
+compute: 0.00014576s - 0.00014576s, avg 0.00014576s +/- 0
 ====

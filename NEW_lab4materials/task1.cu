@@ -196,7 +196,7 @@ run_cuda_kernel(image_t *background)
 
 
   // for RQ2:
-  dim3 block(8, 8); 
+  dim3 block(32, 32); 
   int PPTx = 4;  // modify for experiments
   int PPTy = 1;  // modify for experiments
   dim3 grid((background->width + (block.x * PPTx - 1)) / (block.x * PPTx),
