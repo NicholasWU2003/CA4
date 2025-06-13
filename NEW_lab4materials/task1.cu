@@ -104,29 +104,27 @@ op_cuda_RQ2(uint32_t *dst, const uint32_t *src, const int rowstride,
   const int base_xx = blockIdx.x * blockDim.x + threadIdx.x;
   const int base_yy = blockIdx.y * blockDim.y + threadIdx.y;
   
-  // Process 4 pixels per thread in a 2x2 block
-  for (int dy = 0; dy < 2; dy++) {
-    for (int dx = 0; dx < 2; dx++) {
-      const int xx = base_xx * 2 + dx;
-      const int yy = base_yy * 2 + dy;
-      
-      if (xx < x || xx >= width || yy < y || yy >= height)
-        continue;
+  // Process 4 pixels per thread in a row
+  for (int dx = 0; dx < 4; dx++) {
+    const int xx = base_xx * 4 + dx;
+    const int yy = base_yy;
+    
+    if (xx < x || xx >= width || yy < y || yy >= height)
+      continue;
 
-      // Get the pixel in src
-      uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
+    // Get the pixel in src
+    uint32_t pixel = *image_get_pixel_data(src, rowstride, xx, yy);
 
-      float4 color;
-      RGBA_unpack(color, pixel);
-      float intensity = compute_intensity_CUDA(color);
-      float4 gray;
-      gray.x = gray.y = gray.z = intensity;
-      gray.w = color.w;
+    float4 color;
+    RGBA_unpack(color, pixel);
+    float intensity = compute_intensity_CUDA(color);
+    float4 gray;
+    gray.x = gray.y = gray.z = intensity;
+    gray.w = color.w;
 
-      uint32_t gray_pixel;
-      RGBA_pack(gray_pixel, gray);
-      *image_get_pixel_data(dst, rowstride, xx, yy) = gray_pixel;
-    }
+    uint32_t gray_pixel;
+    RGBA_pack(gray_pixel, gray);
+    *image_get_pixel_data(dst, rowstride, xx, yy) = gray_pixel;
   }
 }
 
@@ -199,8 +197,8 @@ run_cuda_kernel(image_t *background)
 
   // for RQ2:
   dim3 block(8, 8); 
-  int PPTx = 2;
-  int PPTy = 2;
+  int PPTx = 4;  // modify for experiments
+  int PPTy = 1;  // modify for experiments
   dim3 grid((background->width + (block.x * PPTx - 1)) / (block.x * PPTx),
             (background->height + (block.y * PPTy - 1)) / (block.y * PPTy));
 

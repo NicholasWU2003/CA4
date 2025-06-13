@@ -100,33 +100,33 @@ compute: 0.000578816s - 0.000578816s, avg 0.000578816s +/- 0
 
 Processing images/test2048.png ...
 ====
-total: real 0.15278518s, user 0.091861s, system 0.050777s  (93.358532 % CPU utilization, 1 cores allowed)
-load : 0.089571535s - 0.089571535s, avg 0.089571535s +/- 0
-compute: 0.0037079999s - 0.0037079999s, avg 0.0037079999s +/- 0
+total: real 0.14104843s, user 0.084305s, system 0.05111s  (96.006031 % CPU utilization, 1 cores allowed)
+load : 0.084883104s - 0.084883104s, avg 0.084883104s +/- 0
+compute: 0.0030487361s - 0.0030487361s, avg 0.0030487361s +/- 0
 ====
 Processing images/test2048.png ...
 ====
-total: real 0.080737276s, user 0.074847s, system 0.005079s  (98.995166 % CPU utilization, 1 cores allowed)
-load : 0.077596323s - 0.077596323s, avg 0.077596323s +/- 0
-compute: 0.000159168s - 0.000159168s, avg 0.000159168s +/- 0
+total: real 0.082114566s, user 0.071336s, system 0.009919s  (98.953211 % CPU utilization, 1 cores allowed)
+load : 0.078943545s - 0.078943545s, avg 0.078943545s +/- 0
+compute: 8.608e-05s - 8.608e-05s, avg 8.608e-05s +/- 0
 ====
 Processing images/test2048.png ...
 ====
-total: real 0.076257404s, user 0.075367s, system 0.000163s  (99.04612 % CPU utilization, 1 cores allowed)
-load : 0.073088742s - 0.073088742s, avg 0.073088742s +/- 0
-compute: 0.000158336s - 0.000158336s, avg 0.000158336s +/- 0
+total: real 0.07674984s, user 0.072173s, system 0.003224s  (98.237338 % CPU utilization, 1 cores allowed)
+load : 0.073580442s - 0.073580442s, avg 0.073580442s +/- 0
+compute: 8.4831998e-05s - 8.4831998e-05s, avg 8.4831998e-05s +/- 0
 ====
 Processing images/test2048.png ...
 ====
-total: real 0.079615194s, user 0.076735s, system 0.002154s  (99.08787 % CPU utilization, 1 cores allowed)
-load : 0.076429173s - 0.076429173s, avg 0.076429173s +/- 0
-compute: 0.00015881599s - 0.00015881599s, avg 0.00015881599s +/- 0
+total: real 0.076243359s, user 0.073408s, system 0.001949s  (98.837461 % CPU utilization, 1 cores allowed)
+load : 0.073083414s - 0.073083414s, avg 0.073083414s +/- 0
+compute: 0.00016121601s - 0.00016121601s, avg 0.00016121601s +/- 0
 ====
 Processing images/test2048.png ...
 ====
-total: real 0.076837711s, user 0.07486s, system 0.001119s  (98.882435 % CPU utilization, 1 cores allowed)
-load : 0.073481027s - 0.073481027s, avg 0.073481027s +/- 0
-compute: 0.00027776s - 0.00027776s, avg 0.00027776s +/- 0
+total: real 0.076245585s, user 0.072331s, system 0.00294s  (98.721782 % CPU utilization, 1 cores allowed)
+load : 0.073100355s - 0.073100355s, avg 0.073100355s +/- 0
+compute: 9.1519997e-05s - 9.1519997e-05s, avg 9.1519997e-05s +/- 0
 ====
 Processing images/color4096.png ...
 ====

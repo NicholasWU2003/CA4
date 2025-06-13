@@ -108,42 +108,41 @@ __global__ void tile_global(uint32_t *dst, int bg_width, int bg_height, int bg_r
                             const uint32_t *tile, int tile_width, int tile_height, int tile_rowbytes,
                             const float alpha)
 {
-    // Compute the (x, y) coordinates of the pixel this thread will process
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
-    int y = blockIdx.y * blockDim.y + threadIdx.y;
-    // Exit if the thread is outside the bounds of the background image
-    if (x >= bg_width || y >= bg_height) return;
+  // Compute the (x, y) coordinates of the pixel this thread will process
+  int x = blockIdx.x * blockDim.x + threadIdx.x;
+  int y = blockIdx.y * blockDim.y + threadIdx.y;
 
-    // Calculate the number of uint32_t elements per row for background and tile
-    const int bg_pitch   = bg_rowbytes   >> 2;      // rowstride in uint32_t words
-    const int tile_pitch = tile_rowbytes >> 2;
+  // Exit if the thread is outside the bounds
+  if (x >= bg_width || y >= bg_height) return;
 
-    // Fetch the background pixel at (x, y)
-    uint32_t bg_pix = dst[y * bg_pitch + x];
+  // Calculate the number of uint32_t elements per row for background and tile
+  const int bg_pitch   = bg_rowbytes >> 2;      
+  const int tile_pitch = tile_rowbytes >> 2;
 
-    // Compute the corresponding tile coordinates (tx, ty) using modulo for tiling
-    int tx = x % tile_width;
-    int ty = y % tile_height;
-    // Fetch the tile pixel at (tx, ty)
-    uint32_t tile_pix = tile[ty * tile_pitch + tx];
+  // Get the background pixel
+  uint32_t bg_pix = dst[y * bg_pitch + x];
 
-    // Unpack both pixels from uint32_t to float4/rgba_t for blending
-    rgba_t b, t;
-    RGBA_unpack(b, bg_pix);     // Unpack background pixel
-    RGBA_unpack(t, tile_pix);   // Unpack tile pixel
+  // Compute the corresponding tile coordinates 
+  int tx = x % tile_width;
+  int ty = y % tile_height;
 
-    // Perform alpha blending:
-    //   b = (1 - alpha) * b (scales all channels, including alpha)
-    //   t = alpha * t
-    //   out = b + t (component-wise addition)
-    rgba_t out;
-    RGBA_mults(b, b, 1.f - alpha);   // Scale background by (1 - alpha)
-    RGBA_mults(t, t,        alpha);  // Scale tile by alpha
-    RGBA_add(out, b, t);             // Add the two results
+  // Get the tile pixel
+  uint32_t tile_pix = tile[ty * tile_pitch + tx];
 
-    // Pack the blended result back into uint32_t and store it
-    RGBA_pack(bg_pix, out);
-    dst[y * bg_pitch + x] = bg_pix;
+  // Unpack both pixels from uint32_t to rgba_t for blending
+  rgba_t b, t;
+  RGBA_unpack(b, bg_pix);     
+  RGBA_unpack(t, tile_pix);   
+
+  // Perform alpha blending:
+  rgba_t out;
+  RGBA_mults(b, b, 1.f - alpha);  
+  RGBA_mults(t, t, alpha);
+  RGBA_add(out, b, t);            
+
+  // Pack the blended result back into uint32_t and store it
+  RGBA_pack(bg_pix, out);
+  dst[y * bg_pitch + x] = bg_pix;
 }
 
 // Shared memory kernel for tile compositing
@@ -151,57 +150,56 @@ __global__ void tile_shared(uint32_t *dst, int bg_width, int bg_height, int bg_r
                             const uint32_t *tile, int tile_width, int tile_height, int tile_rowbytes,
                             const float alpha)
 {
-    // Shared memory for the tile (allocated dynamically)
-    extern __shared__ uint32_t tile_shmem[];
+  // Shared memory for the tile 
+  extern __shared__ uint32_t tile_shmem[];
 
-    // Calculate the number of uint32_t elements per row for tile
-    const int tile_pitch = tile_rowbytes >> 2;
+  // Calculate the number of uint32_t elements per row for tile
+  const int tile_pitch = tile_rowbytes >> 2;
 
-    // Each thread loads one or more tile pixels into shared memory
-    int tile_size = tile_width * tile_height;
-    int thread_id = threadIdx.y * blockDim.x + threadIdx.x;
-    int block_threads = blockDim.x * blockDim.y;
-    for (int i = thread_id; i < tile_size; i += block_threads) {
-        int tx = i % tile_width;
-        int ty = i / tile_width;
-        tile_shmem[i] = tile[ty * tile_pitch + tx];
-    }
-    __syncthreads();
+  // Each thread loads one or more tile pixels into shared memory
+  int tile_size = tile_width * tile_height;
+  int thread_id = threadIdx.y * blockDim.x + threadIdx.x;
+  int block_threads = blockDim.x * blockDim.y;
+  for (int i = thread_id; i < tile_size; i += block_threads) {
+    int tx = i % tile_width;
+    int ty = i / tile_width;
+    tile_shmem[i] = tile[ty * tile_pitch + tx];
+  }
+  __syncthreads();
 
-    // Compute the (x, y) coordinates of the pixel this thread will process
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
-    int y = blockIdx.y * blockDim.y + threadIdx.y;
-    if (x >= bg_width || y >= bg_height) return;
+  // Compute the (x, y) coordinates of the pixel this thread will process
+  int x = blockIdx.x * blockDim.x + threadIdx.x;
+  int y = blockIdx.y * blockDim.y + threadIdx.y;
 
-    // Calculate the number of uint32_t elements per row for background
-    const int bg_pitch = bg_rowbytes >> 2;
+  // Exit if the thread is outside the bounds
+  if (x >= bg_width || y >= bg_height) return;
 
-    // Fetch the background pixel at (x, y)
-    uint32_t bg_pix = dst[y * bg_pitch + x];
+  // Calculate the number of uint32_t elements per row for background
+  const int bg_pitch = bg_rowbytes >> 2;
 
-    // Compute the corresponding tile coordinates (tx, ty) using modulo for tiling
-    int tx = x % tile_width;
-    int ty = y % tile_height;
-    // Fetch the tile pixel from shared memory
-    uint32_t tile_pix = tile_shmem[ty * tile_width + tx];
+  // Fetch the background pixel at (x, y)
+  uint32_t bg_pix = dst[y * bg_pitch + x];
 
-    // Unpack both pixels from uint32_t to float4/rgba_t for blending
-    rgba_t b, t;
-    RGBA_unpack(b, bg_pix);     // Unpack background pixel
-    RGBA_unpack(t, tile_pix);   // Unpack tile pixel
+  // Compute the corresponding tile coordinates (tx, ty) using modulo for tiling
+  int tx = x % tile_width;
+  int ty = y % tile_height;
+  // Fetch the tile pixel from shared memory
+  uint32_t tile_pix = tile_shmem[ty * tile_width + tx];
 
-    // Perform alpha blending:
-    //   b = (1 - alpha) * b (scales all channels, including alpha)
-    //   t = alpha * t
-    //   out = b + t (component-wise addition)
-    rgba_t out;
-    RGBA_mults(b, b, 1.f - alpha);   // Scale background by (1 - alpha)
-    RGBA_mults(t, t,        alpha);  // Scale tile by alpha
-    RGBA_add(out, b, t);             // Add the two results
+  // Unpack both pixels from uint32_t to float4/rgba_t for blending
+  rgba_t b, t;
+  RGBA_unpack(b, bg_pix);     // Unpack background pixel
+  RGBA_unpack(t, tile_pix);   // Unpack tile pixel
 
-    // Pack the blended result back into uint32_t and store it
-    RGBA_pack(bg_pix, out);
-    dst[y * bg_pitch + x] = bg_pix;
+  // Perform alpha blending:
+  rgba_t out;
+  RGBA_mults(b, b, 1.f - alpha); 
+  RGBA_mults(t, t, alpha);  
+  RGBA_add(out, b, t);        
+
+  // Pack the blended result back into uint32_t and store it
+  RGBA_pack(bg_pix, out);
+  dst[y * bg_pitch + x] = bg_pix;
 }
 
 
@@ -224,9 +222,10 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
   cudaMemcpy(d_tile, tile->data, tile_bytes, cudaMemcpyHostToDevice);
 
   /* TODO: calculate the block size and number of thread blocks. */
-  dim3 block(16, 16); 
-  int PPTx = 1;
-  int PPTy = 1;
+  dim3 block(16, 16);  // modify for experiments
+  int PPTx = 1; // modify for experiments
+  int PPTy = 1; // modify for experiments 
+
   size_t sharedMem = tile->width * tile->height * sizeof(uint32_t);
 
   dim3 grid((background[0]->width + (block.x * PPTx - 1)) / (block.x * PPTx),
