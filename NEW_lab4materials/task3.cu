@@ -265,12 +265,12 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
 
   
     // For batch processing, use batched kernels
-    // tile_global_batched<<<grid, block>>>(d_bg_array, background[0]->width, background[0]->height, background[0]->rowstride,
-    //                                       d_tile, tile->width, tile->height, tile->rowstride, 0.2f, nImages);
+    tile_global_batched<<<grid, block>>>(d_bg_array, background[0]->width, background[0]->height, background[0]->rowstride,
+                                          d_tile, tile->width, tile->height, tile->rowstride, 0.2f, nImages);
     
     // batched shared memory kernel
-    tile_shared_batched<<<grid, block, sharedMem>>>(d_bg_array, background[0]->width, background[0]->height, background[0]->rowstride,
-                                                     d_tile, tile->width, tile->height, tile->rowstride, 0.2f, nImages);
+    // tile_shared_batched<<<grid, block, sharedMem>>>(d_bg_array, background[0]->width, background[0]->height, background[0]->rowstride,
+    //                                                  d_tile, tile->width, tile->height, tile->rowstride, 0.2f, nImages);
   
 
   CUDA_ASSERT( cudaGetLastError() );
