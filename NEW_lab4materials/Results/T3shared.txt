@@ -1,100 +1,125 @@
-SHARED
-+++++++++++++++++++++++++++++
-Batch 2
+Batch = 1
 ====
-total: real 14.928809s, user 13.82886s, system 0.456209s  (95.687937 % CPU utilization, 1 cores allowed)
-load : 0s - 0.28967718s, avg 0.23089089s +/- 0.037823127
-compute: 0s - 0.00082505602s, avg 0.0008013377s +/- 0.00010353581
+total: real 15.217362s, user 14.144714s, system 0.331552s  (95.129932 % CPU utilization, 1 cores allowed)
+load : 0.023209253s - 0.059042398s, avg 0.027609037s +/- 0.0028795532
+compute: 0.000208896s - 0.000246784s, avg 0.00021532269s +/- 4.4080072e-06
 ====
 ====
-total: real 15.870939s, user 14.588632s, system 0.550536s  (95.38924 % CPU utilization, 1 cores allowed)
-load : 0s - 0.29137329s, avg 0.24635636s +/- 0.038474653
-compute: 0s - 0.00082534403s, avg 0.00080167449s +/- 0.00010361241
+total: real 14.824432s, user 13.730885s, system 0.291377s  (94.588866 % CPU utilization, 1 cores allowed)
+load : 0.023014006s - 0.030588726s, avg 0.026948242s +/- 0.0020673102
+compute: 0.00020912001s - 0.000225696s, avg 0.00021509956s +/- 2.4891383e-06
 ====
 ====
-total: real 14.721727s, user 13.654793s, system 0.313933s  (94.885107 % CPU utilization, 1 cores allowed)
-load : 0s - 0.55721269s, avg 0.44793456s +/- 0.094087191
-compute: 0s - 0.001686848s, avg 0.0016137796s +/- 0.0002947992
+total: real 14.74786s, user 13.768696s, system 0.305856s  (95.434538 % CPU utilization, 1 cores allowed) < ---
+load : 0.022830554s - 0.030801596s, avg 0.026800084s +/- 0.0020757273
+compute: 0.000210944s - 0.00024912s, avg 0.00021444806s +/- 4.503525e-06
 ====
 
-++++++++++++++++++++++++++++++=
-Batch 4
+Batch = 2
 ====
-total: real 14.14878s, user 13.047863s, system 0.314005s  (94.438307 % CPU utilization, 1 cores allowed)
-load : 0s - 0.51254147s, avg 0.43077738s +/- 0.083805963
-compute: 0s - 0.001696768s, avg 0.0016131861s +/- 0.00029474553
-====
-====
-total: real 15.266331s, user 14.078925s, system 0.427114s  (95.019812 % CPU utilization, 1 cores allowed)
-load : 0s - 0.56661308s, avg 0.4662409s +/- 0.096657751
-compute: 0s - 0.0017060159s, avg 0.0016138849s +/- 0.00029498061
+total: real 17.22287s, user 15.258621s, system 1.251691s  (95.862721 % CPU utilization, 1 cores allowed)
+load : 0.050497682s - 0.084679925s, avg 0.063249133s +/- 0.0072212682
+compute: 0.00022528s - 0.00030003199s, avg 0.00023688325s +/- 2.1574741e-05
 ====
 ====
-total: real 14.736906s, user 13.582786s, system 0.38911s  (94.808881 % CPU utilization, 1 cores allowed)
-load : 0s - 1.0856274s, avg 0.86902494s +/- 0.23643597
-compute: 0s - 0.0034426241s, avg 0.00320919s +/- 0.00082864016
+total: real 16.798094s, user 14.941022s, system 1.207267s  (96.131675 % CPU utilization, 1 cores allowed)
+load : 0.049889191s - 0.075565974s, avg 0.061804104s +/- 0.0071193447
+compute: 0.00022518399s - 0.00030003199s, avg 0.00024268612s +/- 2.6434825e-05
+====
+====
+total: real 16.263831s, user 14.300523s, system 1.262859s  (95.693212 % CPU utilization, 1 cores allowed) <---
+load : 0.049939559s - 0.077583576s, avg 0.059718575s +/- 0.0065254479
+compute: 0.00022528s - 0.00030284801s, avg 0.00024008987s +/- 2.5177165e-05
 ====
 
-++++++++++++++++++++
-Batch 8
+Batch = 4
 
 ====
-total: real 14.253112s, user 13.302493s, system 0.194144s  (94.692563 % CPU utilization, 1 cores allowed)
-load : 0s - 1.036677s, avg 0.84224383s +/- 0.22689596
-compute: 0s - 0.0034407041s, avg 0.003203522s +/- 0.00082723784
+total: real 16.136139s, user 14.082979s, system 1.342902s  (95.598342 % CPU utilization, 1 cores allowed) <--
+load : 0.10264188s - 0.15152095s, avg 0.11816646s +/- 0.010708034
+compute: 0.00037075201s - 0.00050176001s, avg 0.000422172s +/- 4.7921391e-05
 ====
 ====
-total: real 14.796003s, user 13.778631s, system 0.237192s  (94.727087 % CPU utilization, 1 cores allowed)
-load : 0s - 1.0695835s, avg 0.87565638s +/- 0.2358281
-compute: 0s - 0.00344064s, avg 0.003202616s +/- 0.00082701051
+total: real 17.927422s, user 15.969984s, system 1.254592s  (96.079493 % CPU utilization, 1 cores allowed)
+load : 0.1010486s - 0.15116357s, avg 0.13271154s +/- 0.011419367
+compute: 0.00037273601s - 0.00049014401s, avg 0.00039975525s +/- 3.924875e-05
 ====
 ====
-total: real 14.038756s, user 12.950871s, system 0.319112s  (94.523921 % CPU utilization, 1 cores allowed)
-load : 0s - 0.043904268s, avg 0.026923046s +/- 0.0025142295
-compute: 0s - 0.00023756801s, avg 0.0002121967s +/- 9.9832444e-06
+total: real 16.879208s, user 14.874885s, system 1.296601s  (95.807138 % CPU utilization, 1 cores allowed)
+load : 0.1016601s - 0.15115871s, avg 0.1244653s +/- 0.012813794
+compute: 0.00037299201s - 0.00048406401s, avg 0.00041337875s +/- 4.4992537e-05
 ====
 
 
-++++++++++++++++++++
-
-Batch 16
+Batch = 8
 
 ====
-total: real 14.006596s, user 12.933303s, system 0.304736s  (94.512895 % CPU utilization, 1 cores allowed)
-load : 0s - 0.031396781s, avg 0.026943277s +/- 0.0023677627
-compute: 0s - 0.000221184s, avg 0.00021254519s +/- 9.9271142e-06
+total: real 15.265005s, user 14.244524s, system 0.307854s  (95.331632 % CPU utilization, 1 cores allowed)
+load : 0.19546433s - 0.29438833s, avg 0.22464824s +/- 0.021773439
+compute: 0.00080998403s - 0.00090316802s, avg 0.0008483465s +/- 3.0563811e-05
 ====
 ====
-total: real 14.085748s, user 12.967101s, system 0.28757s  (94.099871 % CPU utilization, 1 cores allowed)
-load : 0s - 0.039669927s, avg 0.027128702s +/- 0.0024468828
-compute: 0s - 0.00032291201s, avg 0.00021312879s +/- 1.2083572e-05
+total: real 15.243723s, user 14.268326s, system 0.265889s  (95.345571 % CPU utilization, 1 cores allowed) <--
+load : 0.19152174s - 0.28331235s, avg 0.22530222s +/- 0.024376256
+compute: 0.00080076802s - 0.00088588798s, avg 0.0008282345s +/- 2.5811856e-05
 ====
 ====
-total: real 14.978479s, user 13.165132s, system 1.138646s  (95.495533 % CPU utilization, 1 cores allowed)
-load : 0s - 0.077161639s, avg 0.057665402s +/- 0.0056916383
-compute: 0s - 0.000242496s, avg 0.00022805382s +/- 1.4759299e-05
-====
-++++++++++++++++++=
-
-
-Batch 32
-
-====
-total: real 14.789927s, user 13.091605s, system 1.121881s  (96.102475 % CPU utilization, 1 cores allowed)
-load : 0s - 0.068795004s, avg 0.057114393s +/- 0.0054950334
-compute: 0s - 0.00024371199s, avg 0.00022799788s +/- 1.4740589e-05
-====
-====
-total: real 14.726419s, user 12.878091s, system 1.108041s  (94.97307 % CPU utilization, 1 cores allowed)
-load : 0s - 0.064083246s, avg 0.056944067s +/- 0.0052867474
-compute: 0s - 0.000233408s, avg 0.00022646082s +/- 1.4708314e-05
-====
-====
-total: real 15.108503s, user 13.17942s, system 1.206657s  (95.218413 % CPU utilization, 1 cores allowed)
-load : 0s - 0.16233588s, avg 0.11683405s +/- 0.014602696
-compute: 0s - 0.00038166401s, avg 0.00036596681s +/- 3.3527111e-05
+total: real 15.54672s, user 14.650935s, system 0.203227s  (95.545312 % CPU utilization, 1 cores allowed)
+load : 0.19440426s - 0.28578522s, avg 0.23008993s +/- 0.022665101
+compute: 0.00080281597s - 0.00082614398s, avg 0.000813695s +/- 5.0732423e-06
 ====
 
 
-+++++++++++++++++++++++
+Batch = 16
 
+====
+total: real 15.725479s, user 14.673547s, system 0.335888s  (95.446597 % CPU utilization, 1 cores allowed) <--
+load : 0.40279752s - 0.56367787s, avg 0.46382867s +/- 0.043174205
+compute: 0.001673824s - 0.00175616s, avg 0.001724759s +/- 2.2932677e-05
+====
+====
+total: real 16.158425s, user 15.261164s, system 0.188628s  (95.614469 % CPU utilization, 1 cores allowed)
+load : 0.40042368s - 0.56093348s, avg 0.47938484s +/- 0.048301217
+compute: 0.001656832s - 0.001768064s, avg 0.001706638s +/- 2.7670543e-05
+====
+====
+total: real 16.789249s, user 15.854116s, system 0.203806s  (95.644075 % CPU utilization, 1 cores allowed)
+load : 0.42177319s - 0.5606641s, avg 0.49923407s +/- 0.03221141
+compute: 0.001652928s - 0.001701888s, avg 0.001681346s +/- 1.1048237e-05
+====
+
+Batch = 32
+
+====
+total: real 14.727534s, user 13.768181s, system 0.325662s  (95.697238 % CPU utilization, 1 cores allowed)
+load : 0.81896994s - 0.9454007s, avg 0.8663936s +/- 0.032791684
+compute: 0.00340272s - 0.003815424s, avg 0.003468108s +/- 9.5162373e-05
+====
+====
+total: real 14.602492s, user 13.813301s, system 0.223967s  (96.129264 % CPU utilization, 1 cores allowed)
+load : 0.8077551s - 0.94294984s, avg 0.86229731s +/- 0.040193608
+compute: 0.0034136319s - 0.004255744s, avg 0.003494666s +/- 0.00019750931
+====
+====
+total: real 14.442725s, user 13.794959s, system 0.214715s  (97.001596 % CPU utilization, 1 cores allowed) <--
+load : 0.80871435s - 0.93554492s, avg 0.85255029s +/- 0.033956112
+compute: 0.003401376s - 0.0034681599s, avg 0.003433038s +/- 1.7968521e-05
+====
+
+batch = 64
+
+====
+total: real 16.942414s, user 15.691127s, system 0.530107s  (95.743347 % CPU utilization, 1 cores allowed) 
+load : 1.8120093s - 2.1827099s, avg 2.0073211s +/- 0.12172477
+compute: 0.0068126721s - 0.0076574721s, avg 0.0069683s +/- 0.00026216533
+====
+====
+total: real 16.392207s, user 15.381781s, system 0.317779s  (95.774536 % CPU utilization, 1 cores allowed) < --
+load : 1.7054688s - 2.1215383s, avg 1.9476339s +/- 0.11483399
+compute: 0.0067718081s - 0.0078663678s, avg 0.007039092s +/- 0.0003219709
+====
+====
+total: real 16.401921s, user 15.478496s, system 0.199101s  (95.583905 % CPU utilization, 1 cores allowed)
+load : 1.7668067s - 2.1439759s, avg 1.9498757s +/- 0.11200088
+compute: 0.0068372159s - 0.0069056959s, avg 0.0068707801s +/- 2.3254209e-05
+====

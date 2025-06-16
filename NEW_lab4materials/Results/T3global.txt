@@ -1,109 +1,118 @@
-GLOBAL
-
-++++++++++++++++++++++++++++++
-Batchsize 2 ./task3 -b 2 -r 3  frames/ images/tux64.png
+Batch = 1 
 ====
-total: real 14.125281s, user 13.114108s, system 0.316334s  (95.080882 % CPU utilization, 1 cores allowed)
-load : 0s - 0.066119811s, avg 0.027207366s +/- 0.0034777171
-compute: 0s - 8.0735996e-05s, avg 5.6813356e-05s +/- 3.7015797e-06
+total: real 16.65972s, user 15.61435s, system 0.453966s  (96.450094 % CPU utilization, 1 cores allowed)
+load : 0.023780421s - 0.042895832s, avg 0.030516308s +/- 0.0033057413
+compute: 5.4272e-05s - 8.8064e-05s, avg 6.0240063e-05s +/- 6.4911688e-06
 ====
 ====
-total: real 14.108328s, user 13.172118s, system 0.279969s  (95.348554 % CPU utilization, 1 cores allowed)
-load : 0s - 0.035215582s, avg 0.027273717s +/- 0.0025826908
-compute: 0s - 7.3728003e-05s, avg 5.7028893e-05s +/- 3.3596074e-06
+total: real 15.697359s, user 14.635114s, system 0.314643s  (95.237404 % CPU utilization, 1 cores allowed)
+load : 0.02334095s - 0.038152255s, avg 0.028777933s +/- 0.0031746531
+compute: 5.2448001e-05s - 0.00012595201s, avg 5.8949063e-05s +/- 5.8571532e-06
 ====
 ====
-total: real 13.989766s, user 13.044177s, system 0.288984s  (95.306533 % CPU utilization, 1 cores allowed)
-load : 0s - 0.036984334s, avg 0.027057914s +/- 0.0024395712
-compute: 0s - 6.3487999e-05s, avg 5.672476e-05s +/- 3.2472286e-06
+total: real 16.831205s, user 16.043526s, system 0.271533s  (96.933398 % CPU utilization, 1 cores allowed)
+load : 0.023870028s - 0.038284498s, avg 0.031010193s +/- 0.0028930786
+compute: 5.2896e-05s - 7.8688003e-05s, avg 5.4646562e-05s +/- 1.7281404e-06
 ====
 
-++++++++++++++++++++++++++++++++++++++++++++
-
-Batchsize 4 ./task3 -b 2 -r 3  frames/ images/tux64.png
+Batch = 2
 ====
-total: real 14.720506s, user 12.848569s, system 1.109719s  (94.822069 % CPU utilization, 1 cores allowed)
-load : 0s - 0.073260976s, avg 0.0568503s +/- 0.0054156424
-compute: 0s - 7.8847997e-05s, avg 7.3981489e-05s +/- 5.1264306e-06
+total: real 17.512009s, user 15.319303s, system 1.382235s  (95.371914 % CPU utilization, 1 cores allowed)
+load : 0.050618539s - 0.076698689s, avg 0.064543002s +/- 0.0070216015
+compute: 7.1680002e-05s - 0.00018432s, avg 7.8127126e-05s +/- 1.2935248e-05
 ====
 ====
-total: real 14.654382s, user 12.77292s, system 1.115773s  (94.775016 % CPU utilization, 1 cores allowed)
-load : 0s - 0.065886514s, avg 0.05683925s +/- 0.0053412085
-compute: 0s - 8.9855999e-05s, avg 7.4148365e-05s +/- 5.2069732e-06
+total: real 16.991773s, user 15.013278s, system 1.25751s  (95.756858 % CPU utilization, 1 cores allowed)
+load : 0.051644665s - 0.077194196s, avg 0.062608734s +/- 0.0062906477
+compute: 7.1680002e-05s - 0.00018944s, avg 0.0001223275s +/- 4.985317e-05
 ====
 ====
-total: real 14.694805s, user 12.792182s, system 1.148556s  (94.868476 % CPU utilization, 1 cores allowed)
-load : 0s - 0.067616621s, avg 0.056986338s +/- 0.0054081834
-compute: 0s - 8.0063999e-05s, avg 7.4094415e-05s +/- 5.1887982e-06
+total: real 18.070809s, user 15.860298s, system 1.416217s  (95.604547 % CPU utilization, 1 cores allowed)
+load : 0.051474915s - 0.077461851s, avg 0.06682232s +/- 0.0062740168
+compute: 7.1680002e-05s - 0.000188416s, avg 0.00011108125s +/- 4.7315181e-05
 ====
 
-++++++++++++++++++++++++++++++++++++++++++++++++
-Batchsize 8 ./task3 -b 2 -r 3  frames/ images/tux64.png
+Batch = 4
 ====
-total: real 16.319536s, user 14.297763s, system 1.228753s  (95.140672 % CPU utilization, 1 cores allowed)
-load : 0s - 0.1678841s, avg 0.12697387s +/- 0.01693607
-compute: 0s - 0.00025561601s, avg 0.00023939623s +/- 2.2025419e-05
-====
-====
-total: real 16.712473s, user 14.741154s, system 1.195509s  (95.3579 % CPU utilization, 1 cores allowed)
-load : 0s - 0.15217491s, avg 0.13066704s +/- 0.017088555
-compute: 0s - 0.000267232s, avg 0.00023985534s +/- 2.2127624e-05
+total: real 17.27089s, user 15.176722s, system 1.276545s  (95.265889 % CPU utilization, 1 cores allowed)
+load : 0.10234362s - 0.15187008s, avg 0.12731836s +/- 0.014354606
+compute: 0.00023763201s - 0.00036032s, avg 0.0002577595s +/- 3.5162706e-05
 ====
 ====
-total: real 15.381619s, user 13.489425s, system 1.138527s  (95.100211 % CPU utilization, 1 cores allowed)
-load : 0s - 0.1496767s, avg 0.11969567s +/- 0.015351015
-compute: 0s - 0.000249568s, avg 0.00023912489s +/- 2.1942855e-05
-====
-
-
-++++++++++++++++++++++++++++++++++++++++++++++++
-Batchsize 16 ./task3 -b 2 -r 3  frames/ images/tux64.png
-====
-total: real 14.451221s, user 13.390781s, system 0.263095s  (94.482509 % CPU utilization, 1 cores allowed)
-load : 0s - 0.28310104s, avg 0.22314888s +/- 0.037243013
-compute: 0s - 0.00065958399s, avg 0.00063752656s +/- 8.2391002e-05
+total: real 16.159699s, user 14.173497s, system 1.199297s  (95.130449 % CPU utilization, 1 cores allowed)
+load : 0.10187069s - 0.15183758s, avg 0.11906193s +/- 0.01259649
+compute: 0.000237728s - 0.00034918401s, avg 0.000251595s +/- 2.4589424e-05
 ====
 ====
-total: real 14.217042s, user 13.04476s, system 0.413494s  (94.66283 % CPU utilization, 1 cores allowed)
-load : 0s - 0.28634685s, avg 0.21991165s +/- 0.034909228
-compute: 0s - 0.00065638399s, avg 0.00063727633s +/- 8.2374297e-05
-====
-====
-total: real 14.484993s, user 13.145133s, system 0.56692s  (94.663859 % CPU utilization, 1 cores allowed)
-load : 0s - 0.28911055s, avg 0.2241205s +/- 0.035952847
-compute: 0s - 0.00065535998s, avg 0.00063677954s +/- 8.2289912e-05
+total: real 17.098418s, user 15.033762s, system 1.232721s  (95.134435 % CPU utilization, 1 cores allowed)
+load : 0.10515896s - 0.16048528s, avg 0.12632967s +/- 0.012741818
+compute: 0.000237664s - 0.00032972801s, avg 0.000247793s +/- 1.7579664e-05
 ====
 
+Batch = 8
+====
+total: real 15.737932s, user 14.65424s, system 0.310003s  (95.083924 % CPU utilization, 1 cores allowed)
+load : 0.1970846s - 0.28417266s, avg 0.23248465s +/- 0.024475484
+compute: 0.000642048s - 0.00072192001s, avg 0.00065795s +/- 1.8231385e-05
+====
+====
+total: real 16.095987s, user 15.044016s, system 0.270008s  (95.141874 % CPU utilization, 1 cores allowed)
+load : 0.19613391s - 0.28592551s, avg 0.23880945s +/- 0.027583366
+compute: 0.00064614397s - 0.00072329599s, avg 0.000654687s +/- 1.2268389e-05
+====
+====
+total: real 15.94274s, user 14.914711s, system 0.226286s  (94.971108 % CPU utilization, 1 cores allowed)
+load : 0.19144115s - 0.28415704s, avg 0.2363952s +/- 0.024344036
+compute: 0.00064323199s - 0.00072399998s, avg 0.000655271s +/- 1.6900416e-05
+====
 
-++++++++++++++++++++++++++++++++++++++++++++++++
-Batchsize 32 ./task3 -b 2 -r 3  frames/ images/tux64.png
+Batch = 16
 ====
-total: real 14.202124s, user 13.128339s, system 0.335617s  (94.802411 % CPU utilization, 1 cores allowed)
-load : 0s - 0.5599527s, avg 0.43112398s +/- 0.087516637
-compute: 0s - 0.001422336s, avg 0.0013657817s +/- 0.00024946036
-====
-====
-total: real 14.524868s, user 13.524753s, system 0.292763s  (95.130065 % CPU utilization, 1 cores allowed)
-load : 0s - 0.5559762s, avg 0.44294791s +/- 0.090413327
-compute: 0s - 0.001428768s, avg 0.0013688114s +/- 0.00024999189
+total: real 16.656688s, user 15.517346s, system 0.343726s  (95.223444 % CPU utilization, 1 cores allowed)
+load : 0.40352253s - 0.56214357s, avg 0.49365281s +/- 0.041900135
+compute: 0.0014137599s - 0.001482752s, avg 0.001430144s +/- 1.920155e-05
 ====
 ====
-total: real 14.141139s, user 12.986693s, system 0.355474s  (94.350015 % CPU utilization, 1 cores allowed)
-load : 0s - 0.50980818s, avg 0.43052725s +/- 0.083093001
-compute: 0s - 0.00142336s, avg 0.0013691768s +/- 0.00025002966
+total: real 16.942844s, user 15.937792s, system 0.250878s  (95.548716 % CPU utilization, 1 cores allowed)
+load : 0.41579606s - 0.56425051s, avg 0.50420451s +/- 0.034878691
+compute: 0.00141312s - 0.001482752s, avg 0.001438139s +/- 2.2610545e-05
 ====
 ====
-total: real 14.905198s, user 13.728851s, system 0.391606s  (94.735116 % CPU utilization, 1 cores allowed)
-load : 0s - 1.0659251s, avg 0.87962401s +/- 0.23647959
-compute: 0s - 0.0029761281s, avg 0.002771634s +/- 0.00071570232
+total: real 15.215545s, user 14.163406s, system 0.217687s  (94.515796 % CPU utilization, 1 cores allowed)
+load : 0.39800577s - 0.55132801s, avg 0.45036568s +/- 0.034213248
+compute: 0.0014161921s - 0.001489728s, avg 0.001433004s +/- 2.0385486e-05
+====
+
+Batch = 32
+====
+total: real 16.432223s, user 15.242527s, system 0.445366s  (95.470301 % CPU utilization, 1 cores allowed)
+load : 0.82586078s - 1.1250984s, avg 0.97349296s +/- 0.062846458
+compute: 0.0029521921s - 0.0030208001s, avg 0.002978672s +/- 1.967281e-05
 ====
 ====
-total: real 15.20449s, user 14.246586s, system 0.213894s  (95.106642 % CPU utilization, 1 cores allowed)
-load : 0s - 1.1075052s, avg 0.90190847s +/- 0.24527061
-compute: 0s - 0.002977792s, avg 0.002771728s +/- 0.00071570772
+total: real 16.085609s, user 15.125188s, system 0.225056s  (95.428431 % CPU utilization, 1 cores allowed)
+load : 0.85754731s - 1.1204647s, avg 0.95544425s +/- 0.067588619
+compute: 0.0029532161s - 0.003027648s, avg 0.00297541s +/- 2.0314444e-05
 ====
 ====
-total: real 15.112813s, user 14.154441s, system 0.19621s  (94.956847 % CPU utilization, 1 cores allowed)
-load : 0s - 1.0793119s, avg 0.89628115s +/- 0.24348806
-compute: 0s - 0.002977632s, avg 0.002774668s +/- 0.00071651029
+total: real 16.338651s, user 15.335048s, system 0.259557s  (95.4461 % CPU utilization, 1 cores allowed)
+load : 0.82105444s - 1.0758824s, avg 0.97097745s +/- 0.070838488
+compute: 0.00295504s - 0.003006464s, avg 0.002975128s +/- 1.4199334e-05
+====
+
+Batch = 64
+====
+total: real 16.459212s, user 15.200424s, system 0.485036s  (95.298975 % CPU utilization, 1 cores allowed)
+load : 1.7853499s - 2.1350315s, avg 1.9499565s +/- 0.11783149
+compute: 0.0059831042s - 0.0060815358s, avg 0.006023084s +/- 2.9184084e-05
+====
+====
+total: real 16.575146s, user 15.611918s, system 0.241106s  (95.643342 % CPU utilization, 1 cores allowed)
+load : 1.8388064s - 2.1512354s, avg 1.9723199s +/- 0.08735795
+compute: 0.0059310079s - 0.006048768s, avg 0.006017508s +/- 3.5073433e-05
+====
+====
+total: real 15.522729s, user 14.57141s, system 0.236312s  (95.393803 % CPU utilization, 1 cores allowed)
+load : 1.7079567s - 2.0195565s, avg 1.8405267s +/- 0.10042964
+compute: 0.005881856s - 0.006106112s, avg 0.0060178161s +/- 6.9916379e-05
 ====

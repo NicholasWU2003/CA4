@@ -32,8 +32,6 @@ task2:		task2.cu image.o
 task3:		task3.cu image.o
 		$(NVCC) $(NVCCFLAGS) -o $@ $^ $(PNGFLAGS) $(LDFLAGS)
 
-task4:		task4.cu image.o
-		$(NVCC) $(NVCCFLAGS) -o $@ $^ $(PNGFLAGS) $(LDFLAGS)
 
 # Could add additional rules here
 #

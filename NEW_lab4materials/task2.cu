@@ -108,18 +108,18 @@ __global__ void tile_global(uint32_t *dst, int bg_width, int bg_height, int bg_r
                             const uint32_t *tile, int tile_width, int tile_height, int tile_rowbytes,
                             const float alpha)
 {
-  // Compute the (x, y) coordinates of the pixel this thread will process
+  //  Coordinates of the pixel this thread will process
   int x = blockIdx.x * blockDim.x + threadIdx.x;
   int y = blockIdx.y * blockDim.y + threadIdx.y;
 
-  // Exit if the thread is outside the bounds
+  // Thread is outside the bounds
   if (x >= bg_width || y >= bg_height) return;
 
-  // Calculate the number of uint32_t elements per row for background and tile
+  // Number of uint32_t elements per row for background and tile
   const int bg_pitch   = bg_rowbytes >> 2;      
   const int tile_pitch = tile_rowbytes >> 2;
 
-  // Get the background pixel
+  // Background pixel
   uint32_t bg_pix = dst[y * bg_pitch + x];
 
   // Compute the corresponding tile coordinates 
@@ -145,7 +145,7 @@ __global__ void tile_global(uint32_t *dst, int bg_width, int bg_height, int bg_r
   dst[y * bg_pitch + x] = bg_pix;
 }
 
-// Shared memory kernel for tile compositing
+
 __global__ void tile_shared(uint32_t *dst, int bg_width, int bg_height, int bg_rowbytes,
                             const uint32_t *tile, int tile_width, int tile_height, int tile_rowbytes,
                             const float alpha)
@@ -153,7 +153,7 @@ __global__ void tile_shared(uint32_t *dst, int bg_width, int bg_height, int bg_r
   // Shared memory for the tile 
   extern __shared__ uint32_t tile_shmem[];
 
-  // Calculate the number of uint32_t elements per row for tile
+  // Number of uint32_t elements per row for tile
   const int tile_pitch = tile_rowbytes >> 2;
 
   // Each thread loads one or more tile pixels into shared memory
@@ -167,14 +167,14 @@ __global__ void tile_shared(uint32_t *dst, int bg_width, int bg_height, int bg_r
   }
   __syncthreads();
 
-  // Compute the (x, y) coordinates of the pixel this thread will process
+  // Coordinates of the pixel this thread will process
   int x = blockIdx.x * blockDim.x + threadIdx.x;
   int y = blockIdx.y * blockDim.y + threadIdx.y;
 
-  // Exit if the thread is outside the bounds
+  // Thread is outside the bounds
   if (x >= bg_width || y >= bg_height) return;
 
-  // Calculate the number of uint32_t elements per row for background
+  // Number of uint32_t elements per row for background
   const int bg_pitch = bg_rowbytes >> 2;
 
   // Fetch the background pixel at (x, y)
@@ -186,7 +186,7 @@ __global__ void tile_shared(uint32_t *dst, int bg_width, int bg_height, int bg_r
   // Fetch the tile pixel from shared memory
   uint32_t tile_pix = tile_shmem[ty * tile_width + tx];
 
-  // Unpack both pixels from uint32_t to float4/rgba_t for blending
+  // Unpack both pixels from uint32_t to rgba_t for blending
   rgba_t b, t;
   RGBA_unpack(b, bg_pix);     // Unpack background pixel
   RGBA_unpack(t, tile_pix);   // Unpack tile pixel
@@ -223,8 +223,8 @@ run_cuda_kernels(image_t *background[], const size_t nImages,
 
   /* TODO: calculate the block size and number of thread blocks. */
   dim3 block(16, 16);  // modify for experiments
-  int PPTx = 1; // modify for experiments
-  int PPTy = 1; // modify for experiments 
+  int PPTx = 1; 
+  int PPTy = 1; 
 
   size_t sharedMem = tile->width * tile->height * sizeof(uint32_t);
 

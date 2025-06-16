@@ -196,9 +196,9 @@ run_cuda_kernel(image_t *background)
 
 
   // for RQ2:
-  dim3 block(32, 32); 
-  int PPTx = 4;  // modify for experiments
-  int PPTy = 1;  // modify for experiments
+  dim3 block(32, 32);  //modify for RQ3
+  int PPTx = 4;  
+  int PPTy = 1;  
   dim3 grid((background->width + (block.x * PPTx - 1)) / (block.x * PPTx),
             (background->height + (block.y * PPTy - 1)) / (block.y * PPTy));
 
@@ -222,7 +222,11 @@ run_cuda_kernel(image_t *background)
   //   #if 0
   //   op_grayscale(background, background); /* in-place */
   // #endif
+
+  // for RQ1:
   // op_cuda_RQ1<<<grid, block>>>(d_img, d_img, background->rowstride, 0, 0, background->width, background->height);
+
+  // for RQ2:
   op_cuda_RQ2<<<grid, block>>>(d_img, d_img, background->rowstride, 0, 0, background->width, background->height);
   CUDA_ASSERT(cudaGetLastError());
 
